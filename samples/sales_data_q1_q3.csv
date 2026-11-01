@@ -1,0 +1,20 @@
+Date,Product_Line,Region,Units_Sold,Unit_Price,Revenue,COGS,Gross_Profit,Sales_Rep
+2025-01-15,Enterprise ERP,North America,12,8500,102000,35700,66300,Sarah Jenkins
+2025-01-22,Cloud Security Suite,Europe,24,3200,76800,21504,55296,Markus Weber
+2025-02-05,Data Analytics Hub,North America,35,1800,63000,18900,44100,Sarah Jenkins
+2025-02-18,Enterprise ERP,Asia-Pacific,8,8500,68000,25160,42840,Kenji Sato
+2025-03-02,Cloud Security Suite,North America,42,3200,134400,37632,96768,David Rossi
+2025-03-25,Data Analytics Hub,Europe,28,1800,50400,15120,35280,Elena Rostova
+2025-04-10,Enterprise ERP,North America,15,8500,127500,43350,84150,Sarah Jenkins
+2025-04-20,Cloud Security Suite,Asia-Pacific,18,3200,57600,16608,40992,Kenji Sato
+2025-05-12,Data Analytics Hub,North America,50,1800,90000,26100,63900,David Rossi
+2025-05-28,Enterprise ERP,Europe,10,8500,85000,29750,55250,Markus Weber
+2025-06-14,Cloud Security Suite,North America,55,3200,176000,47520,128480,David Rossi
+2025-06-30,Data Analytics Hub,Asia-Pacific,22,1800,39600,11880,27720,Kenji Sato
+2025-07-08,Enterprise ERP,North America,18,8500,153000,52020,100980,Sarah Jenkins
+2025-07-22,Cloud Security Suite,Europe,31,3200,99200,27776,71424,Elena Rostova
+2025-08-04,Data Analytics Hub,North America,62,1800,111600,32364,79236,David Rossi
+2025-08-19,Enterprise ERP,Asia-Pacific,11,8500,93500,34595,58905,Kenji Sato
+2025-09-03,Cloud Security Suite,North America,60,3200,192000,51840,140160,David Rossi
+2025-09-28,Data Analytics Hub,Europe,38,1800,68400,20520,47880,Markus Weber
+

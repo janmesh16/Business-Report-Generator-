@@ -1,0 +1,29 @@
+{
+  "name": "ledgerly",
+  "version": "1.0.0",
+  "description": "Ledgerly - AI Business Report Generator",
+  "scripts": {
+    "dev": "concurrently -k -n \"SERVER,CLIENT\" -c \"yellow.bold,cyan.bold\" \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "build": "npm --prefix server run build && npm --prefix client run build",
+    "start": "npm --prefix server run start",
+    "test": "npm --prefix server test",
+    "install:all": "npm install && npm --prefix server install && npm --prefix client install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "keywords": [
+    "ai",
+    "business-reports",
+    "dashboard",
+    "data-analytics",
+    "charts",
+    "pdf-export",
+    "docx-export"
+  ],
+  "author": "Ledgerly Team",
+  "license": "MIT"
+}
+

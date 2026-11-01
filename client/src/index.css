@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-earth-bg: #F5EFE6;
+  --color-earth-surface: #FBF7F1;
+  --color-earth-sand: #E3D5C0;
+  --color-earth-primary: #6B4F3A;
+  --color-earth-deep: #3E2C20;
+  --color-earth-terracotta: #B5651D;
+  --color-earth-olive: #7A8450;
+  --color-earth-clay: #A8452F;
+  --color-earth-text: #3E2C20;
+  --color-earth-muted: #7D6B5D;
+}
+
+body {
+  background-color: var(--color-earth-bg);
+  color: var(--color-earth-text);
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, .font-serif {
+  font-family: 'Lora', 'Merriweather', Georgia, serif;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F5EFE6;
+}
+::-webkit-scrollbar-thumb {
+  background: #D9CBB7;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C2B09A;
+}
+
+/* Print Specific Rules */
+@media print {
+  body {
+    background-color: #F5EFE6 !important;
+    color: #3E2C20 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-page-break {
+    page-break-before: always;
+  }
+  .print-avoid-break {
+    page-break-inside: avoid;
+  }
+}
+

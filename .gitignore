@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Production builds
+dist/
+client/dist/
+server/dist/
+
+# Environment files
+.env
+.env.local
+*.env
+
+# SQLite Database
+*.db
+*.db-wal
+*.db-shm
+ledgerly.db
+
+# Temporary upload files
+uploads_temp/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System
+.DS_Store
+Thumbs.db
