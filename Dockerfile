@@ -25,8 +25,7 @@ RUN apt-get update && apt-get install -y \
 
 # Tell Puppeteer to use the installed Chromium executable
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium \
-    NODE_ENV=production
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 WORKDIR /app
 
@@ -35,8 +34,10 @@ COPY package.json package-lock.json ./
 COPY server/package.json server/package-lock.json ./server/
 COPY client/package.json client/package-lock.json ./client/
 
-# Install dependencies
-RUN npm run install:all
+# Install ALL dependencies (including dev tools for build)
+RUN npm install --include=dev && \
+    npm --prefix server install --include=dev && \
+    npm --prefix client install --include=dev
 
 # Copy all source code
 COPY . .
@@ -44,8 +45,9 @@ COPY . .
 # Build client and server
 RUN npm run build
 
-# Expose production port
-ENV PORT=3001 \
+# Set production environment AFTER building
+ENV NODE_ENV=production \
+    PORT=3001 \
     DATABASE_PATH=/app/data/ledgerly.db
 
 # Create persistent data and temporary upload directories

@@ -20,8 +20,8 @@ if (!fs.existsSync(config.uploadsDir)) {
 
 // Multer storage
 const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => cb(null, config.uploadsDir),
-  filename: (_req, file, cb) => {
+  destination: (_req: any, _file: any, cb: any) => cb(null, config.uploadsDir),
+  filename: (_req: any, file: any, cb: any) => {
     const ext = path.extname(file.originalname);
     cb(null, `upload_${Date.now()}_${crypto.randomBytes(6).toString('hex')}${ext}`);
   },
@@ -34,7 +34,7 @@ const upload = multer({
     fileSize: config.maxFileSize, // 10MB
     files: 5,
   },
-  fileFilter: (_req, file, cb) => {
+  fileFilter: (_req: any, file: any, cb: any) => {
     const ext = path.extname(file.originalname).toLowerCase();
     const allowed = ['.csv', '.xlsx', '.xls', '.pdf', '.txt', '.md'];
     if (allowed.includes(ext)) {
@@ -55,7 +55,7 @@ const generateLimiter = rateLimit({
 // POST /api/reports (multipart: files + pastedText + notes + metadata)
 router.post('/', generateLimiter, upload.array('files', 5), async (req: Request, res: Response): Promise<any> => {
   try {
-    const files = (req.files as Express.Multer.File[]) || [];
+    const files = (req.files as any[]) || [];
     const pastedText = (req.body.pastedText || '').trim();
     const notes = (req.body.notes || '').trim();
     const title = (req.body.title || '').trim() || 'Business Operations & Performance Analysis';
@@ -132,7 +132,7 @@ router.post('/', generateLimiter, upload.array('files', 5), async (req: Request,
         // STEP 2: STATISTICAL ANALYSIS & CHART BUILDING (IN CODE)
         dbService.updateStatus(reportId, 'analysing', 'Computing deterministic statistics and trend models...');
 
-        const tableStatsList = [];
+        const tableStatsList: any[] = [];
         let totalRecordsAnalyzed = 0;
 
         for (const src of parsedSources) {

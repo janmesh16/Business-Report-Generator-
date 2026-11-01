@@ -9,8 +9,15 @@ import { parseText } from './textParser.js';
 export * from './types.js';
 export { parseCsv, parseExcel, parsePdf, parseText };
 
+export interface UploadableFile {
+  originalname: string;
+  size: number;
+  buffer?: Buffer;
+  path?: string;
+}
+
 export async function parseUploadedFile(
-  file: Express.Multer.File,
+  file: UploadableFile,
   selectedSheet?: string
 ): Promise<ParsedSource> {
   const ext = path.extname(file.originalname).toLowerCase();
@@ -28,4 +35,3 @@ export async function parseUploadedFile(
     throw new Error(`Unsupported file type: ${ext}. Please upload CSV, Excel, PDF, or text files.`);
   }
 }
-

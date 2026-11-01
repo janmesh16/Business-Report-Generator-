@@ -17,3 +17,4 @@ services:
       name: ledgerly-data
       mountPath: /app/data
       sizeGB: 1
+
