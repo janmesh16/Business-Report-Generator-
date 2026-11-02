@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ShieldCheck, AlertCircle, ArrowLeft, Loader2, Lock } from 'lucide-react';
+import { ShieldCheck, ArrowLeft, Loader2, Lock, ShieldAlert } from 'lucide-react';
 import { api } from '../api/client';
-import { ReportRecord } from '../types';
+import { ReportRecord, Evidence } from '../types';
 import { ReportHeader } from '../components/report/ReportHeader';
 import { KpiGrid } from '../components/report/KpiGrid';
 import { ExecutiveSummary } from '../components/report/ExecutiveSummary';
@@ -10,12 +10,21 @@ import { FindingCard } from '../components/report/FindingCard';
 import { RecommendationList } from '../components/report/RecommendationList';
 import { RisksAndQuality } from '../components/report/RisksAndQuality';
 import { StatsAppendix } from '../components/report/StatsAppendix';
+import { StickyNav } from '../components/report/StickyNav';
+import { AboutDataPanel } from '../components/report/AboutDataPanel';
+import { VisualAnalysisSection } from '../components/report/VisualAnalysisSection';
+import { EvidenceDrawer } from '../components/report/EvidenceDrawer';
 
 export const SharedReportPage: React.FC = () => {
   const { token } = useParams<{ token: string }>();
   const [report, setReport] = useState<ReportRecord | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Evidence Drawer state
+  const [isEvidenceOpen, setIsEvidenceOpen] = useState(false);
+  const [selectedEvidence, setSelectedEvidence] = useState<Evidence | null>(null);
+  const [selectedFindingHeadline, setSelectedFindingHeadline] = useState<string>('');
 
   useEffect(() => {
     if (!token) return;
@@ -30,6 +39,12 @@ export const SharedReportPage: React.FC = () => {
         setLoading(false);
       });
   }, [token]);
+
+  const handleOpenEvidence = (evidence: Evidence, findingHeadline: string) => {
+    setSelectedEvidence(evidence);
+    setSelectedFindingHeadline(findingHeadline);
+    setIsEvidenceOpen(true);
+  };
 
   if (loading) {
     return (
@@ -63,6 +78,8 @@ export const SharedReportPage: React.FC = () => {
   }
 
   const reportJson = report.reportJson;
+  const candidateCharts = report.computedStats?.candidateCharts || [];
+  const linkedChartIds = (reportJson.findings || []).flatMap((f) => f.chartIds || []);
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -83,37 +100,81 @@ export const SharedReportPage: React.FC = () => {
         </Link>
       </div>
 
+      <StickyNav />
+
       {/* Main Report */}
-      <ReportHeader
-        title={reportJson.title || report.title}
-        businessName={report.businessName}
-        decisionContext={report.decisionContext}
-        createdAt={report.createdAt}
-        sources={report.parsedSources}
-        dataQuality={reportJson.dataQuality}
-      />
+      <div id="report-dashboard-content">
+        <ReportHeader
+          title={reportJson.title || report.title}
+          businessName={report.businessName}
+          decisionContext={report.decisionContext}
+          createdAt={report.createdAt}
+          sources={report.parsedSources}
+          dataQuality={reportJson.dataQuality}
+        />
 
-      <KpiGrid kpis={reportJson.kpis} />
+        <div id="section-kpis">
+          <KpiGrid kpis={reportJson.kpis} />
+        </div>
 
-      <ExecutiveSummary summary={reportJson.executiveSummary} />
+        <div id="section-summary">
+          <ExecutiveSummary summary={reportJson.executiveSummary} />
+        </div>
 
-      <div className="mb-8">
-        <h2 className="font-serif text-xl font-bold text-earth-deep mb-4 tracking-tight">
-          Key Findings & Empirical Evidence
-        </h2>
-        {reportJson.findings.map((finding, idx) => (
-          <FindingCard key={finding.id || idx} finding={finding} index={idx} />
-        ))}
+        {reportJson.aboutData && (
+          <AboutDataPanel aboutData={reportJson.aboutData} />
+        )}
+
+        <div className="mb-8" id="section-findings">
+          <h2 className="font-serif text-xl font-bold text-earth-deep mb-4 tracking-tight">
+            Key Findings & Empirical Evidence
+          </h2>
+          {reportJson.findings.map((finding, idx) => (
+            <FindingCard
+              key={finding.id || idx}
+              finding={finding}
+              index={idx}
+              candidateCharts={candidateCharts}
+              onOpenEvidence={handleOpenEvidence}
+            />
+          ))}
+        </div>
+
+        <VisualAnalysisSection
+          candidateCharts={candidateCharts}
+          linkedChartIds={linkedChartIds}
+        />
+
+        <div id="section-recs">
+          <RecommendationList recommendations={reportJson.recommendations} />
+        </div>
+
+        <div id="section-risks">
+          <RisksAndQuality
+            risksAndCaveats={reportJson.risksAndCaveats}
+            dataQuality={reportJson.dataQuality}
+          />
+        </div>
+
+        <div id="section-appendix">
+          <StatsAppendix computedStats={report.computedStats} />
+        </div>
+
+        <div className="mt-8 p-4 rounded-2xl bg-earth-sand/30 border border-earth-sand flex items-center gap-3 text-xs text-earth-muted">
+          <ShieldAlert className="w-5 h-5 text-earth-terracotta shrink-0" />
+          <span>
+            <strong>Verification Notice:</strong> All quantitative statistics, totals, and chart series are computed deterministically in code from uploaded records. AI-generated insights and recommendations should be verified against your original source data.
+          </span>
+        </div>
       </div>
 
-      <RecommendationList recommendations={reportJson.recommendations} />
-
-      <RisksAndQuality
-        risksAndCaveats={reportJson.risksAndCaveats}
-        dataQuality={reportJson.dataQuality}
+      {/* Interactive Evidence Drawer */}
+      <EvidenceDrawer
+        isOpen={isEvidenceOpen}
+        onClose={() => setIsEvidenceOpen(false)}
+        evidence={selectedEvidence}
+        findingHeadline={selectedFindingHeadline}
       />
-
-      <StatsAppendix computedStats={report.computedStats} />
     </div>
   );
 };

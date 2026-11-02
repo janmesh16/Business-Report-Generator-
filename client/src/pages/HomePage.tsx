@@ -1,27 +1,28 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import {
   FileSpreadsheet,
   FileText,
   Sparkles,
-  Layers,
   ArrowRight,
-  Database,
-  Building2,
   HelpCircle,
   FileCode,
+  Eye,
+  GitCompare,
+  Sliders,
+  ShieldCheck,
 } from 'lucide-react';
 import { Dropzone } from '../components/ingestion/Dropzone';
 import { FileList } from '../components/ingestion/FileList';
 import { TextInputTab } from '../components/ingestion/TextInputTab';
 import { SheetSelectorModal } from '../components/ingestion/SheetSelectorModal';
 import { ProgressModal } from '../components/ingestion/ProgressModal';
+import { DataPreviewModal } from '../components/ingestion/DataPreviewModal';
 import { api } from '../api/client';
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
 
-  // Active input tab: 'upload' | 'paste' | 'notes'
   const [activeTab, setActiveTab] = useState<'upload' | 'paste' | 'notes'>('upload');
 
   // Form State
@@ -31,11 +32,17 @@ export const HomePage: React.FC = () => {
   const [title, setTitle] = useState('');
   const [businessName, setBusinessName] = useState('');
   const [decisionContext, setDecisionContext] = useState('');
+  const [promptVersion, setPromptVersion] = useState<'v1' | 'v2' | 'v3'>('v3');
   const [sheetSelections, setSheetSelections] = useState<Record<string, string>>({});
 
   // Sheet selector modal
   const [modalFileIndex, setModalFileIndex] = useState<number | null>(null);
   const [isSheetModalOpen, setIsSheetModalOpen] = useState(false);
+
+  // Data Preview Modal
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
+  const [previewDataList, setPreviewDataList] = useState<any[]>([]);
+  const [previewLoading, setPreviewLoading] = useState(false);
 
   // Progress modal & generation state
   const [isGenerating, setIsGenerating] = useState(false);
@@ -71,6 +78,31 @@ export const HomePage: React.FC = () => {
         ...prev,
         [file.name]: sheetName,
       }));
+    }
+  };
+
+  // Preview Data handler
+  const handlePreviewData = async () => {
+    if (files.length === 0 && !pastedText.trim() && !notes.trim()) {
+      alert('Please select files or paste data first to preview.');
+      return;
+    }
+
+    try {
+      setPreviewLoading(true);
+      const formData = new FormData();
+      files.forEach((f) => formData.append('files', f));
+      if (pastedText.trim()) formData.append('pastedText', pastedText.trim());
+      if (notes.trim()) formData.append('notes', notes.trim());
+      formData.append('sheetSelections', JSON.stringify(sheetSelections));
+
+      const res = await api.previewData(formData);
+      setPreviewDataList(res.previews || []);
+      setIsPreviewModalOpen(true);
+    } catch (err: any) {
+      alert(`Preview failed: ${err.message}`);
+    } finally {
+      setPreviewLoading(false);
     }
   };
 
@@ -115,12 +147,12 @@ export const HomePage: React.FC = () => {
     if (title.trim()) formData.append('title', title.trim());
     if (businessName.trim()) formData.append('businessName', businessName.trim());
     if (decisionContext.trim()) formData.append('decisionContext', decisionContext.trim());
+    formData.append('promptVersion', promptVersion);
     formData.append('sheetSelections', JSON.stringify(sheetSelections));
 
     try {
       const { reportId } = await api.createReport(formData);
 
-      // Poll status until complete or failed
       const pollInterval = setInterval(async () => {
         try {
           const statusRes = await api.getReportStatus(reportId);
@@ -137,7 +169,7 @@ export const HomePage: React.FC = () => {
             setErrorMessage(statusRes.errorMessage || 'Generation failed.');
           }
         } catch (pollErr) {
-          // temporary network hiccup, keep polling
+          // ignore transient poll error
         }
       }, 1000);
     } catch (err: any) {
@@ -152,26 +184,36 @@ export const HomePage: React.FC = () => {
       <div className="text-center mb-10">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-earth-sand/60 text-earth-deep text-xs font-semibold mb-4 border border-earth-sand">
           <Sparkles className="w-3.5 h-3.5 text-earth-terracotta" />
-          <span>Decision-Ready Business Intelligence</span>
+          <span>Decision-Ready Business Intelligence & Visual Analysis</span>
         </div>
 
         <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-earth-deep tracking-tight mb-4">
           Transform Raw Business Data Into Strategic Reports
         </h1>
         <p className="text-earth-muted text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-          Upload spreadsheets, PDFs, or paste raw meeting notes. Ledgerly computes the statistics in code and produces an executive report grounded in verified empirical evidence.
+          Upload spreadsheets, PDFs, or paste raw meeting notes. Ledgerly profiles the data, calculates statistical models in code, and produces an executive report grounded in verified empirical evidence.
         </p>
 
-        {/* Quick Demo Pre-loader */}
-        <div className="mt-5">
+        {/* Quick Links / Preloaders */}
+        <div className="mt-5 flex items-center justify-center gap-4 flex-wrap text-xs">
           <button
             type="button"
             onClick={handleLoadSample}
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-earth-terracotta hover:text-earth-deep underline decoration-earth-sand hover:decoration-earth-deep transition-all"
+            className="inline-flex items-center gap-1.5 font-semibold text-earth-terracotta hover:text-earth-deep underline decoration-earth-sand hover:decoration-earth-deep transition-all"
           >
             <FileCode className="w-4 h-4" />
             <span>Load Sample Dataset (Sales & Executive Notes)</span>
           </button>
+
+          <span className="text-earth-sand">•</span>
+
+          <Link
+            to="/compare"
+            className="inline-flex items-center gap-1.5 font-semibold text-earth-primary hover:text-earth-deep transition-colors"
+          >
+            <GitCompare className="w-3.5 h-3.5 text-earth-terracotta" />
+            <span>Compare Prompt Versions Side-by-Side</span>
+          </Link>
         </div>
       </div>
 
@@ -179,31 +221,44 @@ export const HomePage: React.FC = () => {
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Step 1: Input Tabs */}
         <div className="bg-earth-surface border border-earth-sand rounded-3xl p-6 sm:p-8 shadow-warm">
-          <div className="flex border-b border-earth-sand mb-6">
-            <button
-              type="button"
-              onClick={() => setActiveTab('upload')}
-              className={`pb-3 px-4 text-sm font-semibold transition-all flex items-center gap-2 border-b-2 ${
-                activeTab === 'upload'
-                  ? 'border-earth-terracotta text-earth-deep font-bold'
-                  : 'border-transparent text-earth-muted hover:text-earth-deep'
-              }`}
-            >
-              <FileSpreadsheet className="w-4 h-4 text-earth-olive" />
-              <span>Upload Files ({files.length})</span>
-            </button>
+          <div className="flex items-center justify-between border-b border-earth-sand mb-6 pb-2">
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setActiveTab('upload')}
+                className={`pb-2 px-4 text-sm font-semibold transition-all flex items-center gap-2 border-b-2 ${
+                  activeTab === 'upload'
+                    ? 'border-earth-terracotta text-earth-deep font-bold'
+                    : 'border-transparent text-earth-muted hover:text-earth-deep'
+                }`}
+              >
+                <FileSpreadsheet className="w-4 h-4 text-earth-olive" />
+                <span>Upload Files ({files.length})</span>
+              </button>
 
+              <button
+                type="button"
+                onClick={() => setActiveTab('paste')}
+                className={`pb-2 px-4 text-sm font-semibold transition-all flex items-center gap-2 border-b-2 ${
+                  activeTab === 'paste'
+                    ? 'border-earth-terracotta text-earth-deep font-bold'
+                    : 'border-transparent text-earth-muted hover:text-earth-deep'
+                }`}
+              >
+                <FileText className="w-4 h-4 text-earth-primary" />
+                <span>Paste Data & Notes</span>
+              </button>
+            </div>
+
+            {/* Data Preview Button */}
             <button
               type="button"
-              onClick={() => setActiveTab('paste')}
-              className={`pb-3 px-4 text-sm font-semibold transition-all flex items-center gap-2 border-b-2 ${
-                activeTab === 'paste'
-                  ? 'border-earth-terracotta text-earth-deep font-bold'
-                  : 'border-transparent text-earth-muted hover:text-earth-deep'
-              }`}
+              onClick={handlePreviewData}
+              disabled={previewLoading || (files.length === 0 && !pastedText.trim() && !notes.trim())}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-earth-sand/50 hover:bg-earth-sand text-earth-deep text-xs font-semibold transition-colors disabled:opacity-40"
             >
-              <FileText className="w-4 h-4 text-earth-primary" />
-              <span>Paste Data & Notes</span>
+              <Eye className="w-3.5 h-3.5 text-earth-primary" />
+              <span>{previewLoading ? 'Inspecting...' : 'Preview Data'}</span>
             </button>
           </div>
 
@@ -227,11 +282,28 @@ export const HomePage: React.FC = () => {
           )}
         </div>
 
-        {/* Step 2: Context & Decision Intent */}
+        {/* Step 2: Context & Prompt Engineering Version */}
         <div className="bg-earth-surface border border-earth-sand rounded-3xl p-6 sm:p-8 shadow-warm space-y-5">
-          <h3 className="font-serif text-lg font-bold text-earth-deep tracking-tight">
-            Strategic Context (Optional)
-          </h3>
+          <div className="flex items-center justify-between">
+            <h3 className="font-serif text-lg font-bold text-earth-deep tracking-tight">
+              Strategic Context & Configuration
+            </h3>
+
+            {/* Prompt Version Dropdown */}
+            <div className="flex items-center gap-2">
+              <Sliders className="w-3.5 h-3.5 text-earth-primary" />
+              <label className="text-xs font-semibold text-earth-muted">Prompt Engine:</label>
+              <select
+                value={promptVersion}
+                onChange={(e) => setPromptVersion(e.target.value as any)}
+                className="px-2.5 py-1 rounded-lg bg-earth-bg border border-earth-sand text-xs font-semibold text-earth-deep focus:outline-hidden focus:ring-1 focus:ring-earth-terracotta"
+              >
+                <option value="v3">v3 Production (Evidence Guardrails + Examples)</option>
+                <option value="v2">v2 Structured (Schema + Stats)</option>
+                <option value="v1">v1 Basic (Raw Instructions)</option>
+              </select>
+            </div>
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
@@ -280,7 +352,10 @@ export const HomePage: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
           <div className="text-xs text-earth-muted text-center sm:text-left">
             <span className="font-semibold text-earth-deep">Grounding Guarantee: </span>
-            All totals and growth rates are computed in code. The LLM never invents numbers.
+            All totals, correlations, and growth rates are computed in code.
+            <div className="text-[11px] text-earth-terracotta mt-0.5">
+              Notice: AI-generated insights should be verified against your source data.
+            </div>
           </div>
 
           <button
@@ -303,6 +378,13 @@ export const HomePage: React.FC = () => {
         onSelectSheet={handleSelectSheet}
       />
 
+      {/* Data Preview Modal */}
+      <DataPreviewModal
+        isOpen={isPreviewModalOpen}
+        onClose={() => setIsPreviewModalOpen(false)}
+        previews={previewDataList}
+      />
+
       {/* Progress Indicator Modal */}
       <ProgressModal
         isOpen={isGenerating}
@@ -317,4 +399,3 @@ export const HomePage: React.FC = () => {
     </div>
   );
 };
-

@@ -29,6 +29,7 @@ export function initDb() {
       title TEXT NOT NULL,
       business_name TEXT,
       decision_context TEXT,
+      prompt_version TEXT DEFAULT 'v3',
       status TEXT CHECK(status IN ('pending', 'parsing', 'analysing', 'writing', 'completed', 'failed')) DEFAULT 'pending',
       progress_step TEXT DEFAULT 'Initializing pipeline...',
       error_message TEXT,
@@ -52,6 +53,13 @@ export function initDb() {
     CREATE INDEX IF NOT EXISTS idx_report_status ON reports(status);
   `;
   db.exec(schemaSql);
+
+  // Safe migration for existing DB files
+  try {
+    db.exec("ALTER TABLE reports ADD COLUMN prompt_version TEXT DEFAULT 'v3'");
+  } catch (e) {
+    // Column already exists
+  }
 }
 
 export interface ReportRecord {
@@ -59,6 +67,7 @@ export interface ReportRecord {
   title: string;
   business_name: string | null;
   decision_context: string | null;
+  prompt_version?: string;
   status: 'pending' | 'parsing' | 'analysing' | 'writing' | 'completed' | 'failed';
   progress_step: string;
   error_message: string | null;
@@ -75,13 +84,14 @@ export const dbService = {
     title: string;
     businessName?: string;
     decisionContext?: string;
+    promptVersion?: string;
   }) {
     const database = getDb();
     const stmt = database.prepare(`
-      INSERT INTO reports (id, title, business_name, decision_context, status, progress_step)
-      VALUES (?, ?, ?, ?, 'pending', 'Ingestion queued...')
+      INSERT INTO reports (id, title, business_name, decision_context, prompt_version, status, progress_step)
+      VALUES (?, ?, ?, ?, ?, 'pending', 'Ingestion queued...')
     `);
-    stmt.run(data.id, data.title, data.businessName || null, data.decisionContext || null);
+    stmt.run(data.id, data.title, data.businessName || null, data.decisionContext || null, data.promptVersion || 'v3');
     return this.getReport(data.id);
   },
 
@@ -154,7 +164,6 @@ export const dbService = {
 
   createOrGetShareToken(reportId: string): { token: string; isNew: boolean } {
     const database = getDb();
-    // Check if active token exists
     const existing = database.prepare(`
       SELECT token FROM share_tokens WHERE report_id = ? AND is_revoked = 0
     `).get(reportId) as { token: string } | undefined;
@@ -163,7 +172,6 @@ export const dbService = {
       return { token: existing.token, isNew: false };
     }
 
-    // 128-bit random hex string (16 bytes = 32 hex chars)
     const token = crypto.randomBytes(16).toString('hex');
     const id = crypto.randomUUID();
 

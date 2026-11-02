@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Loader2, AlertCircle, RefreshCw } from 'lucide-react';
+import { ArrowLeft, Loader2, AlertCircle, RefreshCw, ShieldAlert } from 'lucide-react';
 import { api } from '../api/client';
-import { ReportRecord } from '../types';
+import { ReportRecord, Evidence } from '../types';
 import { ReportHeader } from '../components/report/ReportHeader';
 import { KpiGrid } from '../components/report/KpiGrid';
 import { ExecutiveSummary } from '../components/report/ExecutiveSummary';
@@ -11,12 +11,21 @@ import { RecommendationList } from '../components/report/RecommendationList';
 import { RisksAndQuality } from '../components/report/RisksAndQuality';
 import { StatsAppendix } from '../components/report/StatsAppendix';
 import { ExportBar } from '../components/report/ExportBar';
+import { StickyNav } from '../components/report/StickyNav';
+import { AboutDataPanel } from '../components/report/AboutDataPanel';
+import { VisualAnalysisSection } from '../components/report/VisualAnalysisSection';
+import { EvidenceDrawer } from '../components/report/EvidenceDrawer';
 
 export const DashboardPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [report, setReport] = useState<ReportRecord | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Evidence Drawer state
+  const [isEvidenceOpen, setIsEvidenceOpen] = useState(false);
+  const [selectedEvidence, setSelectedEvidence] = useState<Evidence | null>(null);
+  const [selectedFindingHeadline, setSelectedFindingHeadline] = useState<string>('');
 
   const fetchReport = async () => {
     if (!id) return;
@@ -35,6 +44,12 @@ export const DashboardPage: React.FC = () => {
   useEffect(() => {
     fetchReport();
   }, [id]);
+
+  const handleOpenEvidence = (evidence: Evidence, findingHeadline: string) => {
+    setSelectedEvidence(evidence);
+    setSelectedFindingHeadline(findingHeadline);
+    setIsEvidenceOpen(true);
+  };
 
   if (loading) {
     return (
@@ -82,6 +97,9 @@ export const DashboardPage: React.FC = () => {
     );
   }
 
+  const candidateCharts = report.computedStats?.candidateCharts || [];
+  const linkedChartIds = (reportJson.findings || []).flatMap((f) => f.chartIds || []);
+
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Back button & Export Bar */}
@@ -93,6 +111,11 @@ export const DashboardPage: React.FC = () => {
           <ArrowLeft className="w-4 h-4" />
           <span>Generate Another Report</span>
         </Link>
+        {report.promptVersion && (
+          <span className="text-xs font-mono font-medium px-2.5 py-1 rounded-lg bg-earth-sand/40 text-earth-deep border border-earth-sand">
+            Engine: {report.promptVersion.toUpperCase()} Prompt
+          </span>
+        )}
       </div>
 
       <ExportBar
@@ -100,6 +123,9 @@ export const DashboardPage: React.FC = () => {
         initialShareToken={report.shareToken}
         onShareStatusChange={fetchReport}
       />
+
+      {/* Sticky Section Navigation */}
+      <StickyNav />
 
       {/* Main Report Structure */}
       <div id="report-dashboard-content">
@@ -114,33 +140,76 @@ export const DashboardPage: React.FC = () => {
         />
 
         {/* 2. Headline KPIs */}
-        <KpiGrid kpis={reportJson.kpis} />
+        <div id="section-kpis">
+          <KpiGrid kpis={reportJson.kpis} />
+        </div>
 
         {/* 3. Executive Summary */}
-        <ExecutiveSummary summary={reportJson.executiveSummary} />
+        <div id="section-summary">
+          <ExecutiveSummary summary={reportJson.executiveSummary} />
+        </div>
 
-        {/* 4. Key Findings */}
-        <div className="mb-8">
+        {/* 4. Section 4: About This Data (Key Telemetry & Quality Score) */}
+        {reportJson.aboutData && (
+          <AboutDataPanel aboutData={reportJson.aboutData} />
+        )}
+
+        {/* 5. Section 5: Key Findings & Empirical Evidence */}
+        <div className="mb-8" id="section-findings">
           <h2 className="font-serif text-xl font-bold text-earth-deep mb-4 tracking-tight">
             Key Findings & Empirical Evidence
           </h2>
           {reportJson.findings.map((finding, idx) => (
-            <FindingCard key={finding.id || idx} finding={finding} index={idx} />
+            <FindingCard
+              key={finding.id || idx}
+              finding={finding}
+              index={idx}
+              candidateCharts={candidateCharts}
+              onOpenEvidence={handleOpenEvidence}
+            />
           ))}
         </div>
 
-        {/* 5. Prioritized Recommendations */}
-        <RecommendationList recommendations={reportJson.recommendations} />
-
-        {/* 6. Risks, Caveats & Data Quality */}
-        <RisksAndQuality
-          risksAndCaveats={reportJson.risksAndCaveats}
-          dataQuality={reportJson.dataQuality}
+        {/* 6. Section 6: Visual Analysis (Deep Dives & Supplementary Charts) */}
+        <VisualAnalysisSection
+          candidateCharts={candidateCharts}
+          linkedChartIds={linkedChartIds}
         />
 
-        {/* 7. Appendix with Verified Calculations */}
-        <StatsAppendix computedStats={report.computedStats} />
+        {/* 7. Prioritized Recommendations */}
+        <div id="section-recs">
+          <RecommendationList recommendations={reportJson.recommendations} />
+        </div>
+
+        {/* 8. Risks, Caveats & Data Quality */}
+        <div id="section-risks">
+          <RisksAndQuality
+            risksAndCaveats={reportJson.risksAndCaveats}
+            dataQuality={reportJson.dataQuality}
+          />
+        </div>
+
+        {/* 9. Appendix with Verified Calculations */}
+        <div id="section-appendix">
+          <StatsAppendix computedStats={report.computedStats} />
+        </div>
+
+        {/* Anti-Hallucination Disclaimer Banner */}
+        <div className="mt-8 p-4 rounded-2xl bg-earth-sand/30 border border-earth-sand flex items-center gap-3 text-xs text-earth-muted">
+          <ShieldAlert className="w-5 h-5 text-earth-terracotta shrink-0" />
+          <span>
+            <strong>Verification Notice:</strong> All quantitative statistics, totals, and chart series are computed deterministically in code from uploaded records. AI-generated insights and recommendations should be verified against your original source data.
+          </span>
+        </div>
       </div>
+
+      {/* Interactive Evidence Drawer */}
+      <EvidenceDrawer
+        isOpen={isEvidenceOpen}
+        onClose={() => setIsEvidenceOpen(false)}
+        evidence={selectedEvidence}
+        findingHeadline={selectedFindingHeadline}
+      />
     </div>
   );
 };

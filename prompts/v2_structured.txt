@@ -1,0 +1,48 @@
+ROLE: You are an expert financial and business operations analyst.
+
+CONTEXT:
+You are analyzing business data for "{businessName}" regarding the decision: "{decisionContext}".
+Review the following pre-computed statistics, data profile, and candidate charts:
+
+{computedStats}
+
+AVAILABLE CHARTS:
+{candidateCharts}
+
+QUALITATIVE TEXT:
+{extractedText}
+
+TASK:
+Produce an executive business report as valid JSON matching the following schema:
+{
+  "title": string,
+  "executiveSummary": string,
+  "aboutData": {
+    "rows": number,
+    "columns": number,
+    "dateRange": string|null,
+    "sources": [string],
+    "qualityScore": number
+  },
+  "kpis": [{ "label": string, "value": string, "change": string|null, "trend": "up"|"down"|"flat", "sourceRef": string }],
+  "findings": [{
+    "id": string,
+    "headline": string,
+    "detail": string,
+    "impact": "high"|"medium"|"low",
+    "chartIds": [string],
+    "evidence": [{ "source": string, "location": string, "quote": string|null }]
+  }],
+  "chartNotes": [{ "chartId": string, "whatItShows": string, "soWhat": string }],
+  "recommendations": [{
+    "priority": "high"|"medium"|"low",
+    "action": string,
+    "rationale": string,
+    "expectedImpact": string,
+    "linkedFindingIds": [string]
+  }],
+  "risksAndCaveats": [string],
+  "dataQuality": { "issues": [string], "confidence": "high"|"medium"|"low" }
+}
+
+Return ONLY valid JSON.

@@ -1,0 +1,501 @@
+Date,Product,Region,Units_Sold,Unit_Price,Revenue,COGS,Gross_Profit,Sales_Rep,Customer_Segment
+2025-01-02,Data Analytics Hub,Asia-Pacific,23,1800,41400,12006,29394,Kenji Sato,Government
+2025-01-02,Data Analytics Hub,Latin America,7,1800,12600,3654,8946,Markus Weber,Government
+2025-01-03,API Developer Pro,North America,17,650,11050,1658,9392,Maria Santos,Government
+2025-01-03,AI Copilot Add-on,Europe,4,950,3800,836,2964,Elena Rostova,SMB
+2025-01-04,Enterprise ERP,North America,24,8500,204000,71400,132600,Elena Rostova,SMB
+2025-01-04,API Developer Pro,North America,9,650,5850,878,4972,Markus Weber,Government
+2025-01-05,Data Analytics Hub,North America,14,1800,25200,7308,17892,David Rossi,Government
+2025-01-05,Enterprise ERP,North America,11,8500,93500,32725,60775,David Rossi,Enterprise
+2025-01-06,API Developer Pro,North America,16,650,10400,1560,8840,Sarah Jenkins,Enterprise
+2025-01-06,Enterprise ERP,Asia-Pacific,24,8500,204000,71400,132600,Markus Weber,Government
+2025-01-07,AI Copilot Add-on,Europe,2,950,1900,418,1482,Markus Weber,Government
+2025-01-07,API Developer Pro,Europe,3,650,1950,293,1657,Markus Weber,Government
+2025-01-08,Cloud Security Suite,North America,20,3200,64000,17920,46080,Kenji Sato,Mid-Market
+2025-01-08,AI Copilot Add-on,Asia-Pacific,18,950,17100,3762,13338,Elena Rostova,Mid-Market
+2025-01-09,API Developer Pro,Europe,19,650,12350,1853,10497,Sarah Jenkins,Government
+2025-01-09,Data Analytics Hub,North America,2,1800,3600,1044,2556,Sarah Jenkins,SMB
+2025-01-10,API Developer Pro,Latin America,19,650,12350,1853,10497,Kenji Sato,Government
+2025-01-11,API Developer Pro,North America,25,650,16250,2438,13812,David Rossi,Mid-Market
+2025-01-11,Enterprise ERP,North America,22,8500,187000,65450,121550,David Rossi,SMB
+2025-01-12,API Developer Pro,North America,1,650,650,98,552,Maria Santos,Government
+2025-01-12,API Developer Pro,Europe,16,650,10400,1560,8840,Markus Weber,Mid-Market
+2025-01-13,Cloud Security Suite,North America,5,3200,16000,4480,11520,Elena Rostova,SMB
+2025-01-13,API Developer Pro,North America,7,650,4550,683,3867,Markus Weber,Enterprise
+2025-01-14,AI Copilot Add-on,North America,8,950,7600,1672,5928,Kenji Sato,Mid-Market
+2025-01-14,API Developer Pro,North America,21,650,13650,2048,11602,Maria Santos,SMB
+2025-01-15,AI Copilot Add-on,Europe,14,950,13300,2926,10374,Sarah Jenkins,SMB
+2025-01-15,AI Copilot Add-on,Asia-Pacific,11,950,10450,2299,8151,Markus Weber,SMB
+2025-01-16,Cloud Security Suite,Latin America,18,3200,57600,16128,41472,Elena Rostova,Mid-Market
+2025-01-16,API Developer Pro,Latin America,24,650,15600,2340,13260,Elena Rostova,Enterprise
+2025-01-17,Enterprise ERP,Latin America,21,8500,178500,62475,116025,Maria Santos,SMB
+2025-01-17,API Developer Pro,Asia-Pacific,3,650,1950,293,1657,David Rossi,SMB
+2025-01-18,Data Analytics Hub,North America,23,1800,41400,12006,29394,David Rossi,SMB
+2025-01-18,Enterprise ERP,Europe,25,8500,212500,74375,138125,Markus Weber,Enterprise
+2025-01-19,AI Copilot Add-on,North America,2,950,1900,418,1482,Sarah Jenkins,Mid-Market
+2025-01-20,AI Copilot Add-on,Latin America,20,950,19000,4180,14820,David Rossi,SMB
+2025-01-20,AI Copilot Add-on,North America,25,950,23750,5225,18525,David Rossi,Mid-Market
+2025-01-21,AI Copilot Add-on,Europe,3,950,2850,627,2223,David Rossi,Mid-Market
+2025-01-21,Cloud Security Suite,Asia-Pacific,11,3200,35200,9856,25344,David Rossi,Government
+2025-01-22,Enterprise ERP,Europe,20,8500,170000,59500,110500,Maria Santos,SMB
+2025-01-22,Data Analytics Hub,Latin America,17,1800,30600,8874,21726,Sarah Jenkins,SMB
+2025-01-23,Data Analytics Hub,Europe,25,1800,45000,13050,31950,Maria Santos,SMB
+2025-01-23,Cloud Security Suite,Europe,13,3200,41600,11648,29952,Elena Rostova,SMB
+2025-01-24,Data Analytics Hub,North America,9,1800,16200,4698,11502,Sarah Jenkins,SMB
+2025-01-24,Data Analytics Hub,North America,7,1800,12600,3654,8946,Kenji Sato,SMB
+2025-01-25,Cloud Security Suite,North America,15,3200,48000,13440,34560,Markus Weber,Government
+2025-01-25,Cloud Security Suite,Asia-Pacific,18,3200,57600,16128,41472,Kenji Sato,SMB
+2025-01-26,Cloud Security Suite,Latin America,10,3200,32000,8960,23040,Elena Rostova,Government
+2025-01-26,AI Copilot Add-on,North America,7,950,6650,1463,5187,Markus Weber,Government
+2025-01-27,Enterprise ERP,Latin America,18,8500,153000,53550,99450,Kenji Sato,SMB
+2025-01-27,API Developer Pro,Asia-Pacific,16,650,10400,1560,8840,Maria Santos,Enterprise
+2025-01-28,Cloud Security Suite,North America,19,3200,60800,17024,43776,Maria Santos,SMB
+2025-01-29,AI Copilot Add-on,North America,20,950,19000,4180,14820,Markus Weber,Government
+2025-01-29,AI Copilot Add-on,Latin America,7,950,6650,1463,5187,David Rossi,Government
+2025-01-30,Data Analytics Hub,Asia-Pacific,4,1800,7200,2088,5112,Kenji Sato,SMB
+2025-01-30,Enterprise ERP,North America,13,8500,110500,38675,71825,Kenji Sato,SMB
+2025-01-31,Data Analytics Hub,North America,3,1800,5400,1566,3834,Elena Rostova,Enterprise
+2025-01-31,API Developer Pro,North America,8,650,5200,780,4420,Elena Rostova,SMB
+2025-02-01,Enterprise ERP,North America,1,8500,8500,2975,5525,Elena Rostova,Mid-Market
+2025-02-01,Enterprise ERP,North America,7,8500,59500,20825,38675,Maria Santos,Mid-Market
+2025-02-02,AI Copilot Add-on,North America,16,950,15200,3344,11856,David Rossi,Enterprise
+2025-02-02,API Developer Pro,North America,10,650,6500,975,5525,Sarah Jenkins,Government
+2025-02-03,API Developer Pro,Asia-Pacific,3,650,1950,293,1657,Maria Santos,Government
+2025-02-03,Cloud Security Suite,North America,12,3200,38400,10752,27648,Markus Weber,Government
+2025-02-04,Data Analytics Hub,North America,10,1800,18000,5220,12780,Kenji Sato,Enterprise
+2025-02-04,Cloud Security Suite,Europe,25,3200,80000,22400,57600,Elena Rostova,Enterprise
+2025-02-05,Data Analytics Hub,Asia-Pacific,18,1800,32400,9396,23004,Kenji Sato,Enterprise
+2025-02-05,AI Copilot Add-on,North America,17,950,16150,3553,12597,Kenji Sato,Government
+2025-02-06,Enterprise ERP,North America,14,8500,119000,41650,77350,David Rossi,Mid-Market
+2025-02-07,Cloud Security Suite,North America,7,3200,22400,6272,16128,Kenji Sato,Enterprise
+2025-02-07,Data Analytics Hub,North America,11,1800,19800,5742,14058,Markus Weber,Mid-Market
+2025-02-08,Data Analytics Hub,Asia-Pacific,1,1800,1800,522,1278,Sarah Jenkins,SMB
+2025-02-08,Data Analytics Hub,Latin America,9,1800,16200,4698,11502,Sarah Jenkins,SMB
+2025-02-09,API Developer Pro,North America,6,650,3900,585,3315,Kenji Sato,Enterprise
+2025-02-09,AI Copilot Add-on,North America,6,950,5700,1254,4446,Maria Santos,Mid-Market
+2025-02-10,API Developer Pro,North America,3,650,1950,293,1657,Markus Weber,Government
+2025-02-10,API Developer Pro,Asia-Pacific,6,650,3900,585,3315,Elena Rostova,SMB
+2025-02-11,API Developer Pro,Europe,25,650,16250,2438,13812,Elena Rostova,Mid-Market
+2025-02-11,API Developer Pro,North America,3,650,1950,293,1657,David Rossi,Government
+2025-02-12,Data Analytics Hub,North America,2,1800,3600,1044,2556,Elena Rostova,Mid-Market
+2025-02-12,Data Analytics Hub,North America,18,1800,32400,9396,23004,Maria Santos,Mid-Market
+2025-02-13,API Developer Pro,North America,19,650,12350,1853,10497,Elena Rostova,Enterprise
+2025-02-13,Cloud Security Suite,North America,15,3200,48000,13440,34560,Maria Santos,Government
+2025-02-14,AI Copilot Add-on,North America,5,950,4750,1045,3705,David Rossi,SMB
+2025-02-14,AI Copilot Add-on,North America,19,950,18050,3971,14079,David Rossi,Mid-Market
+2025-02-15,Data Analytics Hub,Europe,25,1800,45000,13050,31950,Elena Rostova,Government
+2025-02-16,Data Analytics Hub,North America,18,1800,32400,9396,23004,Kenji Sato,SMB
+2025-02-16,Cloud Security Suite,North America,22,3200,70400,19712,50688,Markus Weber,Government
+2025-02-17,API Developer Pro,North America,21,650,13650,2048,11602,Kenji Sato,Government
+2025-02-17,Enterprise ERP,North America,15,8500,127500,44625,82875,Elena Rostova,Enterprise
+2025-02-18,Cloud Security Suite,Asia-Pacific,12,3200,38400,10752,27648,Sarah Jenkins,Mid-Market
+2025-02-18,Data Analytics Hub,Latin America,3,1800,5400,1566,3834,Sarah Jenkins,SMB
+2025-02-19,AI Copilot Add-on,Latin America,16,950,15200,3344,11856,Maria Santos,Mid-Market
+2025-02-19,AI Copilot Add-on,North America,14,950,13300,2926,10374,Kenji Sato,Enterprise
+2025-02-20,Cloud Security Suite,North America,14,3200,44800,12544,32256,Sarah Jenkins,SMB
+2025-02-20,Enterprise ERP,North America,15,8500,127500,44625,82875,Elena Rostova,Mid-Market
+2025-02-21,AI Copilot Add-on,North America,11,950,10450,2299,8151,Elena Rostova,Enterprise
+2025-02-21,AI Copilot Add-on,North America,14,950,13300,2926,10374,Maria Santos,Government
+2025-02-22,API Developer Pro,North America,21,650,13650,2048,11602,Sarah Jenkins,SMB
+2025-02-22,AI Copilot Add-on,North America,21,950,19950,4389,15561,Maria Santos,Enterprise
+2025-02-23,Cloud Security Suite,North America,24,3200,76800,21504,55296,Kenji Sato,SMB
+2025-02-24,Enterprise ERP,Asia-Pacific,7,8500,59500,20825,38675,Markus Weber,SMB
+2025-02-24,Cloud Security Suite,Asia-Pacific,4,3200,12800,3584,9216,Maria Santos,Government
+2025-02-25,Cloud Security Suite,Europe,4,3200,12800,3584,9216,David Rossi,Mid-Market
+2025-02-25,Enterprise ERP,Europe,15,8500,127500,44625,82875,Maria Santos,Government
+2025-02-26,API Developer Pro,North America,14,650,9100,1365,7735,Kenji Sato,Government
+2025-02-26,Cloud Security Suite,Latin America,8,3200,25600,7168,18432,Kenji Sato,Government
+2025-02-27,AI Copilot Add-on,North America,25,950,23750,5225,18525,Sarah Jenkins,SMB
+2025-02-27,AI Copilot Add-on,North America,17,950,16150,3553,12597,Maria Santos,SMB
+2025-02-28,Data Analytics Hub,Asia-Pacific,19,1800,34200,9918,24282,Kenji Sato,SMB
+2025-02-28,API Developer Pro,Latin America,4,650,2600,390,2210,Sarah Jenkins,Enterprise
+2025-03-01,AI Copilot Add-on,North America,25,950,23750,5225,18525,Maria Santos,Mid-Market
+2025-03-01,Cloud Security Suite,Europe,7,3200,22400,6272,16128,Sarah Jenkins,Mid-Market
+2025-03-02,AI Copilot Add-on,Europe,5,950,4750,1045,3705,Markus Weber,Mid-Market
+2025-03-02,Data Analytics Hub,Latin America,6,1800,10800,3132,7668,David Rossi,Mid-Market
+2025-03-03,API Developer Pro,Europe,24,650,15600,2340,13260,Maria Santos,SMB
+2025-03-03,Data Analytics Hub,Europe,2,1800,3600,1044,2556,Sarah Jenkins,Enterprise
+2025-03-04,Data Analytics Hub,Asia-Pacific,1,1800,1800,522,1278,Markus Weber,Government
+2025-03-05,Data Analytics Hub,Europe,1,1800,1800,522,1278,Elena Rostova,Mid-Market
+2025-03-05,Data Analytics Hub,Latin America,1,1800,1800,522,1278,Sarah Jenkins,Government
+2025-03-06,Enterprise ERP,Europe,7,8500,59500,20825,38675,David Rossi,Mid-Market
+2025-03-06,AI Copilot Add-on,Europe,9,950,8550,1881,6669,Markus Weber,Enterprise
+2025-03-07,Cloud Security Suite,Latin America,12,3200,38400,10752,27648,Elena Rostova,Mid-Market
+2025-03-07,AI Copilot Add-on,North America,23,950,21850,4807,17043,Elena Rostova,SMB
+2025-03-08,Enterprise ERP,Europe,22,8500,187000,65450,121550,Kenji Sato,SMB
+2025-03-08,Cloud Security Suite,Latin America,13,3200,41600,11648,29952,Sarah Jenkins,Mid-Market
+2025-03-09,Enterprise ERP,North America,2,8500,17000,5950,11050,Elena Rostova,Enterprise
+2025-03-09,Cloud Security Suite,Europe,13,3200,41600,11648,29952,Elena Rostova,Enterprise
+2025-03-10,AI Copilot Add-on,North America,4,950,3800,836,2964,David Rossi,Mid-Market
+2025-03-10,Cloud Security Suite,Asia-Pacific,3,3200,9600,2688,6912,Kenji Sato,Mid-Market
+2025-03-11,API Developer Pro,Europe,14,650,9100,1365,7735,Kenji Sato,Enterprise
+2025-03-11,API Developer Pro,North America,9,650,5850,878,4972,Maria Santos,Enterprise
+2025-03-12,API Developer Pro,North America,10,650,6500,975,5525,David Rossi,SMB
+2025-03-12,API Developer Pro,North America,24,650,15600,2340,13260,Maria Santos,Mid-Market
+2025-03-13,Enterprise ERP,Latin America,25,8500,212500,74375,138125,Elena Rostova,Mid-Market
+2025-03-14,AI Copilot Add-on,North America,18,950,17100,3762,13338,Maria Santos,Enterprise
+2025-03-14,Enterprise ERP,North America,22,8500,187000,65450,121550,Markus Weber,Mid-Market
+2025-03-15,AI Copilot Add-on,North America,23,950,21850,4807,17043,Sarah Jenkins,Government
+2025-03-15,Enterprise ERP,North America,3,8500,25500,8925,16575,Sarah Jenkins,Enterprise
+2025-03-16,API Developer Pro,North America,23,650,14950,2243,12707,David Rossi,Enterprise
+2025-03-16,Data Analytics Hub,Asia-Pacific,17,1800,30600,8874,21726,David Rossi,SMB
+2025-03-17,AI Copilot Add-on,Latin America,7,950,6650,1463,5187,Sarah Jenkins,Enterprise
+2025-03-17,API Developer Pro,Asia-Pacific,24,650,15600,2340,13260,David Rossi,SMB
+2025-03-18,Cloud Security Suite,North America,22,3200,70400,19712,50688,Markus Weber,SMB
+2025-03-18,Cloud Security Suite,North America,5,3200,16000,4480,11520,David Rossi,Government
+2025-03-19,Cloud Security Suite,North America,10,3200,32000,8960,23040,Elena Rostova,Government
+2025-03-19,Cloud Security Suite,Latin America,12,3200,38400,10752,27648,Sarah Jenkins,SMB
+2025-03-20,Data Analytics Hub,Europe,16,1800,28800,8352,20448,David Rossi,Government
+2025-03-20,Cloud Security Suite,Europe,7,3200,22400,6272,16128,Maria Santos,Mid-Market
+2025-03-21,Data Analytics Hub,North America,20,1800,36000,10440,25560,Maria Santos,SMB
+2025-03-21,Enterprise ERP,North America,24,8500,204000,71400,132600,David Rossi,Government
+2025-03-22,AI Copilot Add-on,Latin America,11,950,10450,2299,8151,Sarah Jenkins,Enterprise
+2025-03-23,Cloud Security Suite,North America,1,3200,3200,896,2304,Maria Santos,SMB
+2025-03-23,AI Copilot Add-on,North America,3,950,2850,627,2223,Markus Weber,Enterprise
+2025-03-24,AI Copilot Add-on,North America,24,950,22800,5016,17784,Sarah Jenkins,Mid-Market
+2025-03-24,AI Copilot Add-on,Europe,15,950,14250,3135,11115,Maria Santos,Government
+2025-03-25,Enterprise ERP,North America,10,8500,85000,29750,55250,David Rossi,Mid-Market
+2025-03-25,Cloud Security Suite,Asia-Pacific,25,3200,80000,22400,57600,Sarah Jenkins,Enterprise
+2025-03-26,AI Copilot Add-on,Europe,10,950,9500,2090,7410,Kenji Sato,Mid-Market
+2025-03-26,Enterprise ERP,Asia-Pacific,13,8500,110500,38675,71825,Sarah Jenkins,Enterprise
+2025-03-27,API Developer Pro,Europe,24,650,15600,2340,13260,Elena Rostova,Government
+2025-03-27,Enterprise ERP,North America,25,8500,212500,74375,138125,David Rossi,SMB
+2025-03-28,Cloud Security Suite,North America,20,3200,64000,17920,46080,Elena Rostova,SMB
+2025-03-28,API Developer Pro,Europe,16,650,10400,1560,8840,Maria Santos,Mid-Market
+2025-03-29,API Developer Pro,North America,25,650,16250,2438,13812,David Rossi,Government
+2025-03-29,API Developer Pro,North America,14,650,9100,1365,7735,David Rossi,Mid-Market
+2025-03-30,Enterprise ERP,Latin America,21,8500,178500,62475,116025,Kenji Sato,Enterprise
+2025-03-30,Enterprise ERP,North America,11,8500,93500,32725,60775,Elena Rostova,Government
+2025-03-31,API Developer Pro,Asia-Pacific,9,650,5850,878,4972,Elena Rostova,Government
+2025-04-01,Cloud Security Suite,Europe,11,3200,35200,9856,25344,Markus Weber,SMB
+2025-04-01,Cloud Security Suite,North America,2,3200,6400,1792,4608,Maria Santos,Enterprise
+2025-04-02,Enterprise ERP,Europe,22,8500,187000,65450,121550,Sarah Jenkins,Enterprise
+2025-04-02,Enterprise ERP,Asia-Pacific,3,8500,25500,8925,16575,Sarah Jenkins,Mid-Market
+2025-04-03,API Developer Pro,Europe,5,650,3250,488,2762,Maria Santos,Government
+2025-04-03,Enterprise ERP,North America,5,8500,42500,14875,27625,Elena Rostova,Mid-Market
+2025-04-04,Data Analytics Hub,Asia-Pacific,9,1800,16200,4698,11502,Sarah Jenkins,SMB
+2025-04-04,AI Copilot Add-on,Europe,13,950,12350,2717,9633,Sarah Jenkins,Mid-Market
+2025-04-05,AI Copilot Add-on,Europe,25,950,23750,5225,18525,Sarah Jenkins,SMB
+2025-04-05,Cloud Security Suite,Asia-Pacific,2,3200,6400,1792,4608,David Rossi,Mid-Market
+2025-04-06,Data Analytics Hub,North America,7,1800,12600,3654,8946,Kenji Sato,Mid-Market
+2025-04-06,AI Copilot Add-on,North America,5,950,4750,1045,3705,Sarah Jenkins,SMB
+2025-04-07,API Developer Pro,Latin America,22,650,14300,2145,12155,Markus Weber,Government
+2025-04-07,AI Copilot Add-on,North America,16,950,15200,3344,11856,Markus Weber,Enterprise
+2025-04-08,AI Copilot Add-on,Latin America,6,950,5700,1254,4446,Markus Weber,Mid-Market
+2025-04-08,AI Copilot Add-on,Europe,17,950,16150,3553,12597,Maria Santos,Government
+2025-04-09,Enterprise ERP,Latin America,19,8500,161500,56525,104975,Kenji Sato,Government
+2025-04-10,Cloud Security Suite,Asia-Pacific,22,3200,70400,19712,50688,Kenji Sato,Mid-Market
+2025-04-10,Cloud Security Suite,Asia-Pacific,10,3200,32000,8960,23040,Elena Rostova,Enterprise
+2025-04-11,Cloud Security Suite,North America,22,3200,70400,19712,50688,Sarah Jenkins,SMB
+2025-04-11,AI Copilot Add-on,Europe,17,950,16150,3553,12597,Kenji Sato,SMB
+2025-04-12,Cloud Security Suite,Asia-Pacific,11,3200,35200,9856,25344,Sarah Jenkins,Enterprise
+2025-04-12,Data Analytics Hub,North America,21,1800,37800,10962,26838,Elena Rostova,Mid-Market
+2025-04-13,AI Copilot Add-on,North America,18,950,17100,3762,13338,Kenji Sato,Mid-Market
+2025-04-13,Cloud Security Suite,North America,6,3200,19200,5376,13824,David Rossi,Enterprise
+2025-04-14,Cloud Security Suite,Europe,17,3200,54400,15232,39168,Maria Santos,Enterprise
+2025-04-14,Data Analytics Hub,Europe,15,1800,27000,7830,19170,Maria Santos,Mid-Market
+2025-04-15,Data Analytics Hub,Latin America,10,1800,18000,5220,12780,Sarah Jenkins,SMB
+2025-04-15,API Developer Pro,North America,16,650,10400,1560,8840,Kenji Sato,Mid-Market
+2025-04-16,Data Analytics Hub,Asia-Pacific,16,1800,28800,8352,20448,Maria Santos,SMB
+2025-04-16,API Developer Pro,Europe,6,650,3900,585,3315,Maria Santos,Enterprise
+2025-04-17,Enterprise ERP,North America,3,8500,25500,8925,16575,Kenji Sato,Enterprise
+2025-04-18,Enterprise ERP,North America,3,8500,25500,8925,16575,Sarah Jenkins,Enterprise
+2025-04-18,AI Copilot Add-on,North America,23,950,21850,4807,17043,Markus Weber,Enterprise
+2025-04-19,Cloud Security Suite,North America,14,3200,44800,12544,32256,Kenji Sato,Enterprise
+2025-04-19,API Developer Pro,North America,23,650,14950,2243,12707,Maria Santos,Enterprise
+2025-04-20,AI Copilot Add-on,North America,10,950,9500,2090,7410,David Rossi,Government
+2025-04-20,AI Copilot Add-on,Europe,19,950,18050,3971,14079,David Rossi,Mid-Market
+2025-04-21,Enterprise ERP,North America,10,8500,85000,29750,55250,Maria Santos,Government
+2025-04-21,API Developer Pro,North America,18,650,11700,1755,9945,Maria Santos,Government
+2025-04-22,API Developer Pro,Asia-Pacific,7,650,4550,683,3867,Kenji Sato,Mid-Market
+2025-04-22,Cloud Security Suite,Europe,5,3200,16000,4480,11520,Elena Rostova,Enterprise
+2025-04-23,API Developer Pro,Europe,20,650,13000,1950,11050,Maria Santos,Enterprise
+2025-04-23,Data Analytics Hub,North America,1,1800,1800,522,1278,Markus Weber,Mid-Market
+2025-04-24,API Developer Pro,North America,19,650,12350,1853,10497,Kenji Sato,Mid-Market
+2025-04-24,Cloud Security Suite,Europe,4,3200,12800,3584,9216,Maria Santos,Government
+2025-04-25,Enterprise ERP,North America,10,8500,85000,29750,55250,Markus Weber,SMB
+2025-04-25,AI Copilot Add-on,Asia-Pacific,10,950,9500,2090,7410,Sarah Jenkins,Government
+2025-04-26,API Developer Pro,North America,9,650,5850,878,4972,Sarah Jenkins,SMB
+2025-04-27,Enterprise ERP,North America,15,8500,127500,44625,82875,Sarah Jenkins,Enterprise
+2025-04-27,API Developer Pro,Europe,3,650,1950,293,1657,Kenji Sato,SMB
+2025-04-28,API Developer Pro,Europe,22,650,14300,2145,12155,David Rossi,SMB
+2025-04-28,AI Copilot Add-on,Asia-Pacific,11,950,10450,2299,8151,Elena Rostova,Government
+2025-04-29,API Developer Pro,Europe,21,650,13650,2048,11602,Maria Santos,Mid-Market
+2025-04-29,Cloud Security Suite,Europe,11,3200,35200,9856,25344,Sarah Jenkins,SMB
+2025-04-30,Data Analytics Hub,Europe,24,1800,43200,12528,30672,David Rossi,Mid-Market
+2025-04-30,AI Copilot Add-on,North America,15,950,14250,3135,11115,Kenji Sato,Mid-Market
+2025-05-01,Data Analytics Hub,North America,22,1800,39600,11484,28116,David Rossi,SMB
+2025-05-01,Enterprise ERP,Latin America,11,8500,93500,32725,60775,Sarah Jenkins,Government
+2025-05-02,Enterprise ERP,North America,18,8500,153000,53550,99450,Elena Rostova,Mid-Market
+2025-05-02,API Developer Pro,North America,7,650,4550,683,3867,Elena Rostova,Mid-Market
+2025-05-03,API Developer Pro,Asia-Pacific,10,650,6500,975,5525,Kenji Sato,Enterprise
+2025-05-03,Enterprise ERP,Latin America,15,8500,127500,44625,82875,Elena Rostova,SMB
+2025-05-04,AI Copilot Add-on,Asia-Pacific,19,950,18050,3971,14079,Sarah Jenkins,Government
+2025-05-04,Cloud Security Suite,North America,16,3200,51200,14336,36864,Maria Santos,SMB
+2025-05-05,Enterprise ERP,Asia-Pacific,20,8500,170000,59500,110500,Kenji Sato,SMB
+2025-05-06,AI Copilot Add-on,Latin America,2,950,1900,418,1482,David Rossi,Mid-Market
+2025-05-06,API Developer Pro,Europe,11,650,7150,1073,6077,Maria Santos,SMB
+2025-05-07,API Developer Pro,North America,1,650,650,98,552,Sarah Jenkins,Mid-Market
+2025-05-07,Enterprise ERP,Latin America,13,8500,110500,38675,71825,Maria Santos,SMB
+2025-05-08,API Developer Pro,Asia-Pacific,5,650,3250,488,2762,Elena Rostova,SMB
+2025-05-08,AI Copilot Add-on,North America,8,950,7600,1672,5928,David Rossi,Mid-Market
+2025-05-09,Data Analytics Hub,North America,15,1800,27000,7830,19170,Sarah Jenkins,Government
+2025-05-09,AI Copilot Add-on,Asia-Pacific,24,950,22800,5016,17784,Sarah Jenkins,Government
+2025-05-10,API Developer Pro,North America,14,650,9100,1365,7735,Markus Weber,Enterprise
+2025-05-10,Enterprise ERP,North America,8,8500,68000,23800,44200,David Rossi,Government
+2025-05-11,Data Analytics Hub,North America,17,1800,30600,8874,21726,David Rossi,Enterprise
+2025-05-11,Data Analytics Hub,North America,1,1800,1800,522,1278,Kenji Sato,SMB
+2025-05-12,Data Analytics Hub,Europe,10,1800,18000,5220,12780,Maria Santos,Enterprise
+2025-05-12,Enterprise ERP,Europe,11,8500,93500,32725,60775,David Rossi,SMB
+2025-05-13,Enterprise ERP,Europe,4,8500,34000,11900,22100,Maria Santos,Mid-Market
+2025-05-13,Enterprise ERP,North America,12,8500,102000,35700,66300,Sarah Jenkins,Mid-Market
+2025-05-14,Data Analytics Hub,Asia-Pacific,6,1800,10800,3132,7668,Markus Weber,Government
+2025-05-15,API Developer Pro,Latin America,4,650,2600,390,2210,Elena Rostova,Mid-Market
+2025-05-15,Data Analytics Hub,Latin America,9,1800,16200,4698,11502,Sarah Jenkins,Government
+2025-05-16,Enterprise ERP,Asia-Pacific,19,8500,161500,56525,104975,David Rossi,SMB
+2025-05-16,API Developer Pro,North America,7,650,4550,683,3867,Maria Santos,Government
+2025-05-17,Enterprise ERP,Latin America,6,8500,51000,17850,33150,Kenji Sato,Government
+2025-05-17,Enterprise ERP,Europe,13,8500,110500,38675,71825,Maria Santos,Government
+2025-05-18,Enterprise ERP,Latin America,25,8500,212500,74375,138125,Kenji Sato,Mid-Market
+2025-05-18,Data Analytics Hub,North America,8,1800,14400,4176,10224,Kenji Sato,Enterprise
+2025-05-19,Cloud Security Suite,Latin America,2,3200,6400,1792,4608,Elena Rostova,Enterprise
+2025-05-19,AI Copilot Add-on,Europe,10,950,9500,2090,7410,David Rossi,Government
+2025-05-20,Data Analytics Hub,Latin America,12,1800,21600,6264,15336,Markus Weber,Enterprise
+2025-05-20,AI Copilot Add-on,Europe,7,950,6650,1463,5187,Markus Weber,Mid-Market
+2025-05-21,Enterprise ERP,North America,24,8500,204000,71400,132600,Kenji Sato,Enterprise
+2025-05-21,Data Analytics Hub,Asia-Pacific,15,1800,27000,7830,19170,Sarah Jenkins,Mid-Market
+2025-05-22,AI Copilot Add-on,Asia-Pacific,12,950,11400,2508,8892,Maria Santos,Mid-Market
+2025-05-22,AI Copilot Add-on,North America,10,950,9500,2090,7410,David Rossi,SMB
+2025-05-23,Enterprise ERP,Latin America,4,8500,34000,11900,22100,David Rossi,Enterprise
+2025-05-24,Cloud Security Suite,North America,9,3200,28800,8064,20736,Elena Rostova,Mid-Market
+2025-05-24,Cloud Security Suite,Europe,1,3200,3200,896,2304,Markus Weber,Enterprise
+2025-05-25,Cloud Security Suite,Europe,11,3200,35200,9856,25344,David Rossi,Government
+2025-05-25,API Developer Pro,North America,18,650,11700,1755,9945,Elena Rostova,Government
+2025-05-26,Cloud Security Suite,Europe,9,3200,28800,8064,20736,Elena Rostova,SMB
+2025-05-26,Cloud Security Suite,North America,22,3200,70400,19712,50688,Kenji Sato,Mid-Market
+2025-05-27,Enterprise ERP,North America,24,8500,204000,71400,132600,Elena Rostova,Mid-Market
+2025-05-27,Data Analytics Hub,Latin America,20,1800,36000,10440,25560,Kenji Sato,Government
+2025-05-28,Data Analytics Hub,North America,9,1800,16200,4698,11502,Elena Rostova,Enterprise
+2025-05-28,Data Analytics Hub,Asia-Pacific,2,1800,3600,1044,2556,Markus Weber,Mid-Market
+2025-05-29,AI Copilot Add-on,North America,9,950,8550,1881,6669,Elena Rostova,Mid-Market
+2025-05-29,API Developer Pro,North America,22,650,14300,2145,12155,David Rossi,Mid-Market
+2025-05-30,Enterprise ERP,Europe,6,8500,51000,17850,33150,Maria Santos,Enterprise
+2025-05-30,API Developer Pro,Europe,16,650,10400,1560,8840,Kenji Sato,SMB
+2025-05-31,AI Copilot Add-on,Asia-Pacific,4,950,3800,836,2964,Sarah Jenkins,Mid-Market
+2025-05-31,Cloud Security Suite,North America,11,3200,35200,9856,25344,Kenji Sato,Enterprise
+2025-06-01,Data Analytics Hub,Europe,4,1800,7200,2088,5112,Markus Weber,SMB
+2025-06-02,Enterprise ERP,Europe,25,8500,212500,74375,138125,Sarah Jenkins,Enterprise
+2025-06-02,Cloud Security Suite,North America,2,3200,6400,1792,4608,David Rossi,Government
+2025-06-03,API Developer Pro,North America,21,650,13650,2048,11602,Markus Weber,Enterprise
+2025-06-03,Data Analytics Hub,Latin America,21,1800,37800,10962,26838,Sarah Jenkins,Government
+2025-06-04,Enterprise ERP,North America,6,8500,51000,17850,33150,Sarah Jenkins,Mid-Market
+2025-06-04,Data Analytics Hub,Europe,22,1800,39600,11484,28116,David Rossi,Government
+2025-06-05,Data Analytics Hub,Europe,2,1800,3600,1044,2556,Markus Weber,Government
+2025-06-05,Data Analytics Hub,North America,7,1800,12600,3654,8946,Markus Weber,SMB
+2025-06-06,Cloud Security Suite,Europe,17,3200,54400,15232,39168,Maria Santos,Enterprise
+2025-06-06,Enterprise ERP,Europe,25,8500,212500,74375,138125,Elena Rostova,Mid-Market
+2025-06-07,Cloud Security Suite,Europe,4,3200,12800,3584,9216,Kenji Sato,Mid-Market
+2025-06-07,Data Analytics Hub,North America,25,1800,45000,13050,31950,David Rossi,Government
+2025-06-08,Cloud Security Suite,North America,4,3200,12800,3584,9216,Sarah Jenkins,Mid-Market
+2025-06-08,Enterprise ERP,North America,10,8500,85000,29750,55250,Maria Santos,Enterprise
+2025-06-09,Cloud Security Suite,North America,17,3200,54400,15232,39168,Markus Weber,Enterprise
+2025-06-10,AI Copilot Add-on,Europe,14,950,13300,2926,10374,Markus Weber,Mid-Market
+2025-06-10,Enterprise ERP,Asia-Pacific,17,8500,144500,50575,93925,David Rossi,SMB
+2025-06-11,API Developer Pro,North America,10,650,6500,975,5525,Markus Weber,SMB
+2025-06-11,Cloud Security Suite,Europe,4,3200,12800,3584,9216,Elena Rostova,Government
+2025-06-12,Data Analytics Hub,Europe,21,1800,37800,10962,26838,Maria Santos,SMB
+2025-06-12,API Developer Pro,Latin America,21,650,13650,2048,11602,Elena Rostova,SMB
+2025-06-13,AI Copilot Add-on,Europe,4,950,3800,836,2964,Sarah Jenkins,Mid-Market
+2025-06-13,Cloud Security Suite,Europe,2,3200,6400,1792,4608,Elena Rostova,SMB
+2025-06-14,API Developer Pro,Asia-Pacific,19,650,12350,1853,10497,Markus Weber,Mid-Market
+2025-06-14,Enterprise ERP,Asia-Pacific,24,8500,204000,71400,132600,David Rossi,Enterprise
+2025-06-15,AI Copilot Add-on,North America,4,950,3800,836,2964,David Rossi,Government
+2025-06-15,AI Copilot Add-on,North America,21,950,19950,4389,15561,David Rossi,Government
+2025-06-16,Data Analytics Hub,Europe,16,1800,28800,8352,20448,Markus Weber,Enterprise
+2025-06-16,API Developer Pro,North America,12,650,7800,1170,6630,Kenji Sato,Government
+2025-06-17,Cloud Security Suite,North America,1,3200,3200,896,2304,Sarah Jenkins,Mid-Market
+2025-06-17,API Developer Pro,Asia-Pacific,16,650,10400,1560,8840,David Rossi,Mid-Market
+2025-06-18,API Developer Pro,Asia-Pacific,18,650,11700,1755,9945,Sarah Jenkins,Mid-Market
+2025-06-19,AI Copilot Add-on,North America,19,950,18050,3971,14079,Elena Rostova,Government
+2025-06-19,Cloud Security Suite,Europe,22,3200,70400,19712,50688,Markus Weber,Enterprise
+2025-06-20,Cloud Security Suite,Asia-Pacific,14,3200,44800,12544,32256,Maria Santos,Government
+2025-06-20,API Developer Pro,Latin America,16,650,10400,1560,8840,Sarah Jenkins,SMB
+2025-06-21,API Developer Pro,North America,8,650,5200,780,4420,Markus Weber,Government
+2025-06-21,API Developer Pro,North America,21,650,13650,2048,11602,Kenji Sato,Government
+2025-06-22,API Developer Pro,North America,17,650,11050,1658,9392,Elena Rostova,Mid-Market
+2025-06-22,Enterprise ERP,Asia-Pacific,22,8500,187000,65450,121550,Sarah Jenkins,SMB
+2025-06-23,Enterprise ERP,Latin America,1,8500,8500,2975,5525,Maria Santos,Enterprise
+2025-06-23,Cloud Security Suite,Europe,1,3200,3200,896,2304,Elena Rostova,Mid-Market
+2025-06-24,Data Analytics Hub,North America,7,1800,12600,3654,8946,Sarah Jenkins,Enterprise
+2025-06-24,Enterprise ERP,Latin America,18,8500,153000,53550,99450,Elena Rostova,SMB
+2025-06-25,API Developer Pro,Latin America,3,650,1950,293,1657,David Rossi,SMB
+2025-06-25,Cloud Security Suite,North America,1,3200,3200,896,2304,David Rossi,Government
+2025-06-26,Enterprise ERP,North America,13,8500,110500,38675,71825,David Rossi,Mid-Market
+2025-06-26,Enterprise ERP,North America,9,8500,76500,26775,49725,Kenji Sato,Government
+2025-06-27,Data Analytics Hub,Europe,4,1800,7200,2088,5112,Sarah Jenkins,Enterprise
+2025-06-28,Cloud Security Suite,North America,12,3200,38400,10752,27648,Maria Santos,SMB
+2025-06-28,API Developer Pro,Europe,21,650,13650,2048,11602,Markus Weber,SMB
+2025-06-29,Data Analytics Hub,Asia-Pacific,3,1800,5400,1566,3834,Sarah Jenkins,SMB
+2025-06-29,AI Copilot Add-on,Latin America,4,950,3800,836,2964,Elena Rostova,Mid-Market
+2025-06-30,Data Analytics Hub,North America,15,1800,27000,7830,19170,Elena Rostova,Government
+2025-06-30,API Developer Pro,Asia-Pacific,19,650,12350,1853,10497,Maria Santos,SMB
+2025-07-01,API Developer Pro,Europe,1,650,650,98,552,David Rossi,Enterprise
+2025-07-01,Data Analytics Hub,North America,7,1800,12600,3654,8946,Kenji Sato,SMB
+2025-07-02,Data Analytics Hub,North America,6,1800,10800,3132,7668,Kenji Sato,Enterprise
+2025-07-02,Enterprise ERP,Europe,14,8500,119000,41650,77350,Elena Rostova,Enterprise
+2025-07-03,API Developer Pro,North America,16,650,10400,1560,8840,David Rossi,SMB
+2025-07-03,Cloud Security Suite,Europe,15,3200,48000,13440,34560,Kenji Sato,Enterprise
+2025-07-04,AI Copilot Add-on,North America,4,950,3800,836,2964,Sarah Jenkins,Government
+2025-07-04,Data Analytics Hub,Latin America,5,1800,9000,2610,6390,Sarah Jenkins,Mid-Market
+2025-07-05,API Developer Pro,Europe,13,650,8450,1268,7182,David Rossi,Mid-Market
+2025-07-05,API Developer Pro,Asia-Pacific,14,650,9100,1365,7735,Markus Weber,SMB
+2025-07-06,Cloud Security Suite,North America,10,3200,32000,8960,23040,Elena Rostova,Government
+2025-07-07,Data Analytics Hub,North America,7,1800,12600,3654,8946,Kenji Sato,Enterprise
+2025-07-07,AI Copilot Add-on,North America,12,950,11400,2508,8892,Markus Weber,SMB
+2025-07-08,Cloud Security Suite,North America,2,3200,6400,1792,4608,Maria Santos,Mid-Market
+2025-07-08,Cloud Security Suite,North America,19,3200,60800,17024,43776,Elena Rostova,Enterprise
+2025-07-09,AI Copilot Add-on,Latin America,24,950,22800,5016,17784,Kenji Sato,Mid-Market
+2025-07-09,API Developer Pro,North America,6,650,3900,585,3315,Maria Santos,Mid-Market
+2025-07-10,Cloud Security Suite,North America,24,3200,76800,21504,55296,Maria Santos,Mid-Market
+2025-07-10,Enterprise ERP,North America,12,8500,102000,35700,66300,Markus Weber,Mid-Market
+2025-07-11,Data Analytics Hub,North America,12,1800,21600,6264,15336,Maria Santos,Enterprise
+2025-07-11,API Developer Pro,Europe,19,650,12350,1853,10497,Sarah Jenkins,Government
+2025-07-12,Cloud Security Suite,Asia-Pacific,12,3200,38400,10752,27648,David Rossi,Enterprise
+2025-07-12,Data Analytics Hub,Europe,23,1800,41400,12006,29394,Kenji Sato,Government
+2025-07-13,API Developer Pro,Europe,7,650,4550,683,3867,Maria Santos,SMB
+2025-07-13,Enterprise ERP,North America,2,8500,17000,5950,11050,Maria Santos,Mid-Market
+2025-07-14,Cloud Security Suite,North America,3,3200,9600,2688,6912,Elena Rostova,Enterprise
+2025-07-14,Cloud Security Suite,Europe,23,3200,73600,20608,52992,Maria Santos,Enterprise
+2025-07-15,API Developer Pro,North America,22,650,14300,2145,12155,David Rossi,Government
+2025-07-16,API Developer Pro,Europe,2,650,1300,195,1105,Elena Rostova,Enterprise
+2025-07-16,Cloud Security Suite,Asia-Pacific,17,3200,54400,15232,39168,Maria Santos,Enterprise
+2025-07-17,Data Analytics Hub,North America,15,1800,27000,7830,19170,David Rossi,SMB
+2025-07-17,API Developer Pro,Asia-Pacific,2,650,1300,195,1105,Markus Weber,Government
+2025-07-18,Cloud Security Suite,North America,2,3200,6400,1792,4608,Markus Weber,Enterprise
+2025-07-18,Data Analytics Hub,North America,1,1800,1800,522,1278,Kenji Sato,SMB
+2025-07-19,AI Copilot Add-on,Europe,6,950,5700,1254,4446,Sarah Jenkins,Enterprise
+2025-07-19,AI Copilot Add-on,Europe,5,950,4750,1045,3705,Sarah Jenkins,SMB
+2025-07-20,API Developer Pro,Latin America,19,650,12350,1853,10497,Maria Santos,Enterprise
+2025-07-20,API Developer Pro,Asia-Pacific,19,650,12350,1853,10497,Sarah Jenkins,Enterprise
+2025-07-21,AI Copilot Add-on,Latin America,25,950,23750,5225,18525,Kenji Sato,Government
+2025-07-21,Data Analytics Hub,Europe,12,1800,21600,6264,15336,David Rossi,Enterprise
+2025-07-22,API Developer Pro,Europe,22,650,14300,2145,12155,David Rossi,Enterprise
+2025-07-22,Enterprise ERP,North America,17,8500,144500,50575,93925,Maria Santos,Enterprise
+2025-07-23,AI Copilot Add-on,North America,6,950,5700,1254,4446,Sarah Jenkins,Government
+2025-07-23,Enterprise ERP,North America,4,8500,34000,11900,22100,Kenji Sato,SMB
+2025-07-24,Data Analytics Hub,Asia-Pacific,5,1800,9000,2610,6390,Elena Rostova,Enterprise
+2025-07-25,Cloud Security Suite,Europe,21,3200,67200,18816,48384,Sarah Jenkins,Enterprise
+2025-07-25,Cloud Security Suite,Asia-Pacific,7,3200,22400,6272,16128,Sarah Jenkins,Government
+2025-07-26,Data Analytics Hub,Asia-Pacific,15,1800,27000,7830,19170,David Rossi,Mid-Market
+2025-07-26,API Developer Pro,Latin America,11,650,7150,1073,6077,David Rossi,Mid-Market
+2025-07-27,Enterprise ERP,North America,17,8500,144500,50575,93925,David Rossi,SMB
+2025-07-27,Enterprise ERP,North America,19,8500,161500,56525,104975,David Rossi,SMB
+2025-07-28,Data Analytics Hub,Europe,18,1800,32400,9396,23004,David Rossi,SMB
+2025-07-28,Enterprise ERP,Europe,8,8500,68000,23800,44200,Maria Santos,SMB
+2025-07-29,Data Analytics Hub,North America,19,1800,34200,9918,24282,David Rossi,SMB
+2025-07-29,Enterprise ERP,Europe,4,8500,34000,11900,22100,Maria Santos,SMB
+2025-07-30,Cloud Security Suite,Europe,16,3200,51200,14336,36864,Maria Santos,Enterprise
+2025-07-30,Data Analytics Hub,Latin America,12,1800,21600,6264,15336,Markus Weber,Enterprise
+2025-07-31,Enterprise ERP,Europe,5,8500,42500,14875,27625,Markus Weber,Enterprise
+2025-07-31,Cloud Security Suite,North America,5,3200,16000,4480,11520,Kenji Sato,Enterprise
+2025-08-01,Enterprise ERP,Europe,10,8500,85000,29750,55250,David Rossi,Government
+2025-08-02,AI Copilot Add-on,Latin America,11,950,10450,2299,8151,Maria Santos,Enterprise
+2025-08-02,AI Copilot Add-on,Europe,14,950,13300,2926,10374,Maria Santos,SMB
+2025-08-03,Data Analytics Hub,North America,19,1800,34200,9918,24282,Elena Rostova,Enterprise
+2025-08-03,Cloud Security Suite,Europe,4,3200,12800,3584,9216,Sarah Jenkins,Government
+2025-08-04,Data Analytics Hub,Latin America,8,1800,14400,4176,10224,Maria Santos,SMB
+2025-08-04,API Developer Pro,Europe,9,650,5850,878,4972,David Rossi,Mid-Market
+2025-08-05,Data Analytics Hub,Europe,23,1800,41400,12006,29394,Sarah Jenkins,Enterprise
+2025-08-05,Data Analytics Hub,North America,3,1800,5400,1566,3834,David Rossi,SMB
+2025-08-06,Enterprise ERP,Latin America,12,8500,102000,35700,66300,Elena Rostova,SMB
+2025-08-06,AI Copilot Add-on,North America,7,950,6650,1463,5187,Elena Rostova,SMB
+2025-08-07,Cloud Security Suite,North America,12,3200,38400,10752,27648,David Rossi,SMB
+2025-08-07,Enterprise ERP,Latin America,21,8500,178500,62475,116025,David Rossi,SMB
+2025-08-08,Enterprise ERP,North America,19,8500,161500,56525,104975,Markus Weber,Mid-Market
+2025-08-08,Cloud Security Suite,Latin America,21,3200,67200,18816,48384,Kenji Sato,Enterprise
+2025-08-09,Cloud Security Suite,North America,18,3200,57600,16128,41472,David Rossi,Government
+2025-08-09,Cloud Security Suite,Latin America,11,3200,35200,9856,25344,David Rossi,Enterprise
+2025-08-10,Enterprise ERP,North America,23,8500,195500,68425,127075,David Rossi,Mid-Market
+2025-08-11,Data Analytics Hub,North America,14,1800,25200,7308,17892,Kenji Sato,Enterprise
+2025-08-11,Data Analytics Hub,Asia-Pacific,14,1800,25200,7308,17892,David Rossi,Enterprise
+2025-08-12,Cloud Security Suite,Europe,17,3200,54400,15232,39168,Kenji Sato,SMB
+2025-08-12,Data Analytics Hub,Latin America,10,1800,18000,5220,12780,David Rossi,SMB
+2025-08-13,Data Analytics Hub,Europe,3,1800,5400,1566,3834,Maria Santos,Government
+2025-08-13,Enterprise ERP,Europe,16,8500,136000,47600,88400,Elena Rostova,Enterprise
+2025-08-14,Cloud Security Suite,Asia-Pacific,7,3200,22400,6272,16128,Maria Santos,Enterprise
+2025-08-14,API Developer Pro,Europe,19,650,12350,1853,10497,David Rossi,Government
+2025-08-15,API Developer Pro,North America,4,650,2600,390,2210,Sarah Jenkins,Mid-Market
+2025-08-15,Data Analytics Hub,Asia-Pacific,1,1800,1800,522,1278,Kenji Sato,SMB
+2025-08-16,Enterprise ERP,North America,24,8500,204000,71400,132600,Elena Rostova,Government
+2025-08-16,Enterprise ERP,North America,2,8500,17000,5950,11050,Maria Santos,Enterprise
+2025-08-17,API Developer Pro,North America,18,650,11700,1755,9945,Maria Santos,SMB
+2025-08-17,Data Analytics Hub,Europe,12,1800,21600,6264,15336,Kenji Sato,Government
+2025-08-18,API Developer Pro,Europe,24,650,15600,2340,13260,David Rossi,Enterprise
+2025-08-18,Data Analytics Hub,North America,25,1800,45000,13050,31950,Kenji Sato,Enterprise
+2025-08-19,AI Copilot Add-on,North America,12,950,11400,2508,8892,Markus Weber,Government
+2025-08-20,AI Copilot Add-on,Europe,8,950,7600,1672,5928,Kenji Sato,Mid-Market
+2025-08-20,Cloud Security Suite,Asia-Pacific,2,3200,6400,1792,4608,Maria Santos,Enterprise
+2025-08-21,Enterprise ERP,Europe,7,8500,59500,20825,38675,Sarah Jenkins,Government
+2025-08-21,Cloud Security Suite,Europe,13,3200,41600,11648,29952,Kenji Sato,Enterprise
+2025-08-22,Data Analytics Hub,North America,7,1800,12600,3654,8946,Sarah Jenkins,Enterprise
+2025-08-22,Cloud Security Suite,Europe,18,3200,57600,16128,41472,Markus Weber,Enterprise
+2025-08-23,Data Analytics Hub,North America,11,1800,19800,5742,14058,Markus Weber,Government
+2025-08-23,Enterprise ERP,Latin America,13,8500,110500,38675,71825,Kenji Sato,Mid-Market
+2025-08-24,API Developer Pro,Latin America,21,650,13650,2048,11602,Markus Weber,Enterprise
+2025-08-24,API Developer Pro,Latin America,22,650,14300,2145,12155,Kenji Sato,SMB
+2025-08-25,Cloud Security Suite,Europe,2,3200,6400,1792,4608,Maria Santos,Mid-Market
+2025-08-25,Cloud Security Suite,Asia-Pacific,1,3200,3200,896,2304,Sarah Jenkins,Mid-Market
+2025-08-26,API Developer Pro,North America,16,650,10400,1560,8840,Kenji Sato,Enterprise
+2025-08-26,Enterprise ERP,Europe,15,8500,127500,44625,82875,David Rossi,SMB
+2025-08-27,API Developer Pro,North America,22,650,14300,2145,12155,Elena Rostova,Mid-Market
+2025-08-27,Cloud Security Suite,Europe,6,3200,19200,5376,13824,David Rossi,Mid-Market
+2025-08-28,Data Analytics Hub,North America,24,1800,43200,12528,30672,Kenji Sato,Enterprise
+2025-08-29,AI Copilot Add-on,Europe,18,950,17100,3762,13338,Sarah Jenkins,SMB
+2025-08-29,API Developer Pro,Europe,20,650,13000,1950,11050,David Rossi,Mid-Market
+2025-08-30,Data Analytics Hub,North America,13,1800,23400,6786,16614,Elena Rostova,SMB
+2025-08-30,Cloud Security Suite,Asia-Pacific,23,3200,73600,20608,52992,Markus Weber,Mid-Market
+2025-08-31,Enterprise ERP,Asia-Pacific,11,8500,93500,32725,60775,David Rossi,SMB
+2025-08-31,API Developer Pro,Europe,8,650,5200,780,4420,Elena Rostova,Government
+2025-09-01,API Developer Pro,North America,9,650,5850,878,4972,Kenji Sato,Enterprise
+2025-09-01,Data Analytics Hub,Europe,4,1800,7200,2088,5112,Markus Weber,Mid-Market
+2025-09-02,AI Copilot Add-on,Europe,15,950,14250,3135,11115,Sarah Jenkins,SMB
+2025-09-02,API Developer Pro,Latin America,22,650,14300,2145,12155,Markus Weber,SMB
+2025-09-03,Cloud Security Suite,Europe,15,3200,48000,13440,34560,Maria Santos,Mid-Market
+2025-09-03,Enterprise ERP,Asia-Pacific,16,8500,136000,47600,88400,Maria Santos,Mid-Market
+2025-09-04,Data Analytics Hub,Latin America,13,1800,23400,6786,16614,David Rossi,Government
+2025-09-04,Enterprise ERP,North America,1,8500,8500,2975,5525,Markus Weber,Enterprise
+2025-09-05,Cloud Security Suite,North America,4,3200,12800,3584,9216,Markus Weber,SMB
+2025-09-05,Enterprise ERP,Europe,17,8500,144500,50575,93925,David Rossi,SMB
+2025-09-06,Enterprise ERP,North America,23,8500,195500,68425,127075,Markus Weber,Enterprise
+2025-09-07,AI Copilot Add-on,Asia-Pacific,8,950,7600,1672,5928,Sarah Jenkins,Mid-Market
+2025-09-07,Enterprise ERP,North America,3,8500,25500,8925,16575,Maria Santos,Mid-Market
+2025-09-08,API Developer Pro,Europe,20,650,13000,1950,11050,Elena Rostova,Enterprise
+2025-09-08,Cloud Security Suite,North America,10,3200,32000,8960,23040,Markus Weber,Government
+2025-09-09,Enterprise ERP,Europe,14,8500,119000,41650,77350,Sarah Jenkins,Mid-Market
+2025-09-09,Data Analytics Hub,Latin America,10,1800,18000,5220,12780,David Rossi,Government
+2025-09-10,Cloud Security Suite,Asia-Pacific,8,3200,25600,7168,18432,Kenji Sato,Mid-Market
+2025-09-10,Data Analytics Hub,Europe,22,1800,39600,11484,28116,Kenji Sato,Government
+2025-09-11,Data Analytics Hub,Asia-Pacific,25,1800,45000,13050,31950,David Rossi,Enterprise
+2025-09-11,AI Copilot Add-on,North America,10,950,9500,2090,7410,Elena Rostova,Mid-Market
+2025-09-12,API Developer Pro,North America,3,650,1950,293,1657,Kenji Sato,Government
+2025-09-12,API Developer Pro,Europe,18,650,11700,1755,9945,Markus Weber,Mid-Market
+2025-09-13,Enterprise ERP,Asia-Pacific,20,8500,170000,59500,110500,Maria Santos,Government
+2025-09-13,Cloud Security Suite,Asia-Pacific,3,3200,9600,2688,6912,Maria Santos,Mid-Market
+2025-09-14,Cloud Security Suite,North America,18,3200,57600,16128,41472,Kenji Sato,SMB
+2025-09-14,API Developer Pro,Europe,20,650,13000,1950,11050,Markus Weber,Enterprise
+2025-09-15,API Developer Pro,Latin America,17,650,11050,1658,9392,Sarah Jenkins,Enterprise
+2025-09-16,AI Copilot Add-on,North America,18,950,17100,3762,13338,Sarah Jenkins,SMB
+2025-09-16,Data Analytics Hub,North America,1,1800,1800,522,1278,David Rossi,Enterprise
+2025-09-17,Cloud Security Suite,North America,15,3200,48000,13440,34560,David Rossi,Government
+2025-09-17,Cloud Security Suite,Europe,3,3200,9600,2688,6912,Markus Weber,SMB
+2025-09-18,Enterprise ERP,North America,16,8500,136000,47600,88400,Markus Weber,SMB
+2025-09-18,Cloud Security Suite,Latin America,12,3200,38400,10752,27648,Sarah Jenkins,Enterprise
+2025-09-19,Enterprise ERP,Latin America,20,8500,170000,59500,110500,Elena Rostova,Enterprise
+2025-09-19,Data Analytics Hub,Europe,1,1800,1800,522,1278,Sarah Jenkins,Government
+2025-09-20,AI Copilot Add-on,Europe,10,950,9500,2090,7410,Sarah Jenkins,Government
+2025-09-20,Enterprise ERP,Europe,19,8500,161500,56525,104975,Elena Rostova,Government
+2025-09-21,AI Copilot Add-on,North America,14,950,13300,2926,10374,Elena Rostova,Mid-Market
+2025-09-21,AI Copilot Add-on,Europe,2,950,1900,418,1482,David Rossi,SMB
+2025-09-22,Enterprise ERP,Europe,6,8500,51000,17850,33150,Elena Rostova,SMB
+2025-09-22,AI Copilot Add-on,Europe,2,950,1900,418,1482,Markus Weber,Government
+2025-09-23,API Developer Pro,North America,25,650,16250,2438,13812,David Rossi,Government

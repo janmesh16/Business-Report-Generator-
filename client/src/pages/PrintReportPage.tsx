@@ -9,6 +9,8 @@ import { FindingCard } from '../components/report/FindingCard';
 import { RecommendationList } from '../components/report/RecommendationList';
 import { RisksAndQuality } from '../components/report/RisksAndQuality';
 import { StatsAppendix } from '../components/report/StatsAppendix';
+import { AboutDataPanel } from '../components/report/AboutDataPanel';
+import { VisualAnalysisSection } from '../components/report/VisualAnalysisSection';
 
 export const PrintReportPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -38,6 +40,8 @@ export const PrintReportPage: React.FC = () => {
   }
 
   const reportJson = report.reportJson;
+  const candidateCharts = report.computedStats?.candidateCharts || [];
+  const linkedChartIds = (reportJson.findings || []).flatMap((f) => f.chartIds || []);
 
   return (
     <div
@@ -57,6 +61,10 @@ export const PrintReportPage: React.FC = () => {
 
       <ExecutiveSummary summary={reportJson.executiveSummary} />
 
+      {reportJson.aboutData && (
+        <AboutDataPanel aboutData={reportJson.aboutData} />
+      )}
+
       <div className="mb-6">
         <h2 className="font-serif text-xl font-bold text-earth-deep mb-3">
           Key Findings & Empirical Evidence
@@ -66,10 +74,18 @@ export const PrintReportPage: React.FC = () => {
             key={finding.id || idx}
             finding={finding}
             index={idx}
+            candidateCharts={candidateCharts}
+            onOpenEvidence={() => {}}
             isPrintMode={true}
           />
         ))}
       </div>
+
+      <VisualAnalysisSection
+        candidateCharts={candidateCharts}
+        linkedChartIds={linkedChartIds}
+        isPrintMode={true}
+      />
 
       <RecommendationList recommendations={reportJson.recommendations} />
 

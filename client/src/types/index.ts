@@ -1,20 +1,46 @@
+export interface AboutData {
+  rows: number;
+  columns: number;
+  dateRange?: string | null;
+  sources: string[];
+  qualityScore: number;
+}
+
 export interface Kpi {
   label: string;
   value: string;
   change?: string | null;
   trend: 'up' | 'down' | 'flat';
   sourceRef: string;
+  sparkline?: number[] | null;
 }
 
-export interface ChartDataPoint {
-  label: string;
-  value: number;
-}
-
-export interface ChartData {
-  type: 'bar' | 'line' | 'pie' | 'area';
+export interface ChartCandidate {
+  id: string;
+  type:
+    | 'line'
+    | 'area'
+    | 'bar'
+    | 'horizontal_bar'
+    | 'donut'
+    | 'pie'
+    | 'scatter'
+    | 'histogram'
+    | 'waterfall'
+    | 'pareto'
+    | 'matrix'
+    | 'process';
   title: string;
-  data: ChartDataPoint[];
+  categoryTheme: string;
+  data: any[];
+  whatItShows: string;
+  soWhat: string;
+  sourceTag: string;
+  axisLabels?: { x?: string; y?: string };
+  units?: string;
+  highestPoint?: { label: string; value: number };
+  lowestPoint?: { label: string; value: number };
+  correlationR?: number;
 }
 
 export interface Evidence {
@@ -28,8 +54,14 @@ export interface Finding {
   headline: string;
   detail: string;
   impact: 'high' | 'medium' | 'low';
-  chart?: ChartData | null;
+  chartIds: string[];
   evidence: Evidence[];
+}
+
+export interface ChartNote {
+  chartId: string;
+  whatItShows: string;
+  soWhat: string;
 }
 
 export interface Recommendation {
@@ -48,8 +80,10 @@ export interface DataQuality {
 export interface ReportJson {
   title: string;
   executiveSummary: string;
+  aboutData: AboutData;
   kpis: Kpi[];
   findings: Finding[];
+  chartNotes: ChartNote[];
   recommendations: Recommendation[];
   risksAndCaveats: string[];
   dataQuality: DataQuality;
@@ -71,13 +105,20 @@ export interface ReportRecord {
   title: string;
   businessName: string | null;
   decisionContext: string | null;
+  promptVersion?: string;
   status: 'pending' | 'parsing' | 'analysing' | 'writing' | 'completed' | 'failed';
   progressStep: string;
   errorMessage: string | null;
   createdAt: string;
   updatedAt: string;
   parsedSources: ParsedSourceMetadata[];
-  computedStats: any;
+  computedStats: {
+    tables?: any[];
+    candidateCharts?: ChartCandidate[];
+    totalRecordsAnalyzed?: number;
+    overallDateRange?: string | null;
+    overallQualityScore?: number;
+  };
   reportJson: ReportJson | null;
   shareToken?: string;
   isSharedView?: boolean;
@@ -88,9 +129,9 @@ export interface PastReportSummary {
   title: string;
   business_name: string | null;
   decision_context: string | null;
+  prompt_version?: string;
   status: 'pending' | 'parsing' | 'analysing' | 'writing' | 'completed' | 'failed';
   created_at: string;
   share_token: string | null;
   is_revoked: number | null;
 }
-

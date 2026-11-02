@@ -40,6 +40,18 @@ export const Navbar: React.FC = () => {
           </Link>
 
           <Link
+            to="/compare"
+            className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all ${
+              isNavActive('/compare')
+                ? 'bg-earth-sand text-earth-deep font-semibold'
+                : 'text-earth-muted hover:text-earth-deep hover:bg-earth-bg'
+            }`}
+          >
+            <span className="font-mono text-xs font-bold px-1 rounded bg-earth-terracotta/15 text-earth-terracotta">v1-v3</span>
+            <span>Compare</span>
+          </Link>
+
+          <Link
             to="/reports"
             className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all ${
               isNavActive('/reports')

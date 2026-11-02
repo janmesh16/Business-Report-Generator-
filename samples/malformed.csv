@@ -1,0 +1,4 @@
+Date,Product,Revenue
+2025-01-01,Test,1000
+Broken row without commas
+2025-01-03,"Unclosed quote,5000,extra,columns

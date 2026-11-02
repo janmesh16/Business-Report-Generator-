@@ -15,6 +15,30 @@ export const api = {
     return res.json();
   },
 
+  async previewData(formData: FormData): Promise<{ previews: any[] }> {
+    const res = await fetch(`${API_BASE}/reports/preview`, {
+      method: 'POST',
+      body: formData,
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: 'Preview failed' }));
+      throw new Error(err.error || `HTTP ${res.status}`);
+    }
+    return res.json();
+  },
+
+  async comparePrompts(formData: FormData): Promise<{ v1: any; v2: any; v3: any; charts: any[] }> {
+    const res = await fetch(`${API_BASE}/reports/compare`, {
+      method: 'POST',
+      body: formData,
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: 'Comparison failed' }));
+      throw new Error(err.error || `HTTP ${res.status}`);
+    }
+    return res.json();
+  },
+
   async getReportStatus(id: string): Promise<{
     id: string;
     status: 'pending' | 'parsing' | 'analysing' | 'writing' | 'completed' | 'failed';
@@ -85,4 +109,3 @@ export const api = {
     return `${API_BASE}/reports/${id}/export/docx`;
   },
 };
-

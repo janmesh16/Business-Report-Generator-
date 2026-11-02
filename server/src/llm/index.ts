@@ -1,9 +1,15 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { config } from '../config.js';
 import { LLMProvider, ReportJson, ReportJsonSchema } from './types.js';
 import { GeminiAdapter } from './geminiAdapter.js';
 import { MockAdapter } from './mockAdapter.js';
 import { ParsedSource } from '../parsers/types.js';
 import { GlobalComputedStats } from '../stats/calculator.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export * from './types.js';
 
@@ -21,106 +27,99 @@ export function getLLMProvider(
   return new MockAdapter(sources, stats, metadata);
 }
 
+export function loadPromptTemplate(version: 'v1' | 'v2' | 'v3' = 'v3'): string {
+  const promptDir = path.resolve(process.cwd(), 'prompts');
+  const fileName = version === 'v1' ? 'v1_basic.txt' : version === 'v2' ? 'v2_structured.txt' : 'v3_production.txt';
+  const filePath = path.join(promptDir, fileName);
+
+  if (fs.existsSync(filePath)) {
+    return fs.readFileSync(filePath, 'utf8');
+  }
+
+  // Fallback inline template
+  return `Write an executive business report for {businessName} based on: {computedStats}`;
+}
+
 export function buildAnalysisPrompt(
   sources: ParsedSource[],
   stats: GlobalComputedStats,
-  metadata: { title?: string; businessName?: string; decisionContext?: string }
+  metadata: { title?: string; businessName?: string; decisionContext?: string },
+  promptVersion: 'v1' | 'v2' | 'v3' = 'v3'
 ): { prompt: string; systemInstruction: string } {
-  const systemInstruction = `You are Ledgerly, an expert AI business analyst for non-technical managers and small business owners.
-Your role is to produce a structured, decision-ready business report that is strictly grounded in the provided data.
+  const businessName = metadata.businessName || 'Business Organization';
+  const reportTitle = metadata.title || 'Executive Business Performance Analysis';
+  const decisionContext = metadata.decisionContext || 'Strategic resource allocation and capital efficiency';
 
-CRITICAL GROUNDING RULES:
-1. Every number in the report MUST come directly from the pre-computed statistics or extracted text quotes provided below. Never invent, estimate, extrapolate, or calculate new numbers.
-2. Every finding must include at least one concrete Evidence reference (source file name, row/table/line location, and exact quote).
-3. Any charts in findings MUST use one of the pre-computed candidate charts provided in the input, preserving its exact title, type, and data points.
-4. Recommendations must be linked to the findings that justify them using linkedFindingIds.
-5. If the data is insufficient to answer an aspect of the decision context, explicitly state the limitation in "risksAndCaveats".
-6. Return ONLY valid JSON adhering strictly to the required schema.`;
+  const systemInstruction = `You are Ledgerly, an expert AI business intelligence analyst.
+Ground every number in the computed stats or verbatim source quotes. Never invent numbers. If data is insufficient, state so in risksAndCaveats instead of guessing. Return ONLY valid JSON adhering to the required schema.`;
 
-  // Format precomputed stats for prompt
-  const statsOverview = stats.tables.map((t) => ({
-    source: t.sourceName,
-    sheet: t.sheetName || 'Default',
-    totalRows: t.totalRows,
-    numericTotals: Object.fromEntries(
-      Object.entries(t.numericSummaries).map(([col, s]) => [
-        col,
-        { sum: s.sum, mean: s.mean, median: s.median, min: s.min, max: s.max, stdDev: s.stdDev },
-      ])
-    ),
-    trends: t.timeSeriesTrends.map((tr) => ({
-      metric: tr.metricColumn,
-      start: `${tr.startPeriod} (${tr.startValue})`,
-      end: `${tr.endPeriod} (${tr.endValue})`,
-      growthRatePercent: `${tr.growthRatePercent}%`,
-      trend: tr.trend,
+  // Format stats for template interpolation
+  const statsOverview = JSON.stringify(
+    stats.tables.map((t) => ({
+      source: t.sourceName,
+      sheet: t.sheetName || 'Default',
+      rowCount: t.totalRows,
+      numericTotals: Object.fromEntries(
+        Object.entries(t.numericSummaries).map(([col, s]) => [
+          col,
+          { sum: s.sum, mean: s.mean, median: s.median, min: s.min, max: s.max, stdDev: s.stdDev },
+        ])
+      ),
+      trends: t.timeSeriesTrends.map((tr) => ({
+        metric: tr.metricColumn,
+        start: `${tr.startPeriod} (${tr.startValue})`,
+        end: `${tr.endPeriod} (${tr.endValue})`,
+        growthRate: `${tr.growthRatePercent}%`,
+        peak: `${tr.highestPoint.period} (${tr.highestPoint.value})`,
+      })),
+      correlations: t.correlations.map((c) => ({
+        variables: `${c.colA} vs ${c.colB}`,
+        r: c.r,
+        description: c.description,
+      })),
+      categoryBreakdowns: Object.fromEntries(
+        Object.entries(t.categoryBreakdowns).map(([k, v]) => [
+          k,
+          v.slice(0, 5).map((item) => `${item.category}: ${item.value} (${item.shareOfTotalPercent}%)`),
+        ])
+      ),
     })),
-    topSegments: Object.fromEntries(
-      Object.entries(t.categoryBreakdowns).map(([k, v]) => [
-        k,
-        v.slice(0, 5).map((item) => `${item.category}: ${item.value} (${item.shareOfTotalPercent}%)`),
-      ])
-    ),
-  }));
-
-  // Format candidate charts
-  const candidateChartsFormatted = stats.candidateCharts.map((c) => ({
-    id: c.id,
-    type: c.type,
-    title: c.title,
-    source: c.source,
-    data: c.data,
-  }));
-
-  // Format text sources
-  const textSnippets = sources
-    .filter((s) => s.type === 'text' || (s.type === 'pdf' && !s.isScannedOrEmpty))
-    .map((s) => ({
-      source: s.name,
-      sampleLines: (s.extractedText || '').split('\n').slice(0, 40).join('\n'),
-    }));
-
-  const prompt = JSON.stringify(
-    {
-      businessName: metadata.businessName || 'Business Organization',
-      reportTitle: metadata.title || 'Executive Business Performance Analysis',
-      decisionContext: metadata.decisionContext || 'Strategic resource allocation and growth review',
-      precomputedTableStatistics: statsOverview,
-      availableCandidateCharts: candidateChartsFormatted,
-      qualitativeSources: textSnippets,
-      expectedJsonSchema: {
-        title: 'string',
-        executiveSummary: 'string',
-        kpis: [{ label: 'string', value: 'string', change: 'string | null', trend: 'up | down | flat', sourceRef: 'string' }],
-        findings: [
-          {
-            id: 'string',
-            headline: 'string',
-            detail: 'string',
-            impact: 'high | medium | low',
-            chart: 'Chart object matching availableCandidateCharts or null',
-            evidence: [{ source: 'string', location: 'string', quote: 'string | null' }],
-          },
-        ],
-        recommendations: [
-          {
-            priority: 'high | medium | low',
-            action: 'string',
-            rationale: 'string',
-            expectedImpact: 'string',
-            linkedFindingIds: ['string'],
-          },
-        ],
-        risksAndCaveats: ['string'],
-        dataQuality: {
-          issues: ['string'],
-          confidence: 'high | medium | low',
-        },
-      },
-    },
     null,
     2
   );
+
+  const candidateChartsFormatted = JSON.stringify(
+    stats.candidateCharts.map((c) => ({
+      id: c.id,
+      type: c.type,
+      title: c.title,
+      categoryTheme: c.categoryTheme,
+      sourceTag: c.sourceTag,
+      units: c.units,
+      summaryPreview: c.data.slice(0, 4),
+    })),
+    null,
+    2
+  );
+
+  const textSnippets = sources
+    .filter((s) => s.type === 'text' || (s.type === 'pdf' && !s.isScannedOrEmpty))
+    .map((s) => `[Source: ${s.name}]\n${(s.extractedText || '').slice(0, 1500)}`)
+    .join('\n\n');
+
+  const aboutDataSummary = `Records: ${stats.totalRecordsAnalyzed}, Date Range: ${stats.overallDateRange || 'N/A'}, Quality Score: ${stats.overallQualityScore}/100`;
+
+  const template = loadPromptTemplate(promptVersion);
+
+  const prompt = template
+    .replace('{businessName}', businessName)
+    .replace('{reportTitle}', reportTitle)
+    .replace('{decisionContext}', decisionContext)
+    .replace('{aboutDataSummary}', aboutDataSummary)
+    .replace('{computedStats}', statsOverview)
+    .replace('{candidateCharts}', candidateChartsFormatted)
+    .replace('{extractedText}', textSnippets || 'No additional narrative text provided.')
+    .replace('{data}', `${statsOverview}\n\n${textSnippets}`);
 
   return { prompt, systemInstruction };
 }
@@ -128,21 +127,21 @@ CRITICAL GROUNDING RULES:
 export async function runAnalysisPipeline(
   sources: ParsedSource[],
   stats: GlobalComputedStats,
-  metadata: { title?: string; businessName?: string; decisionContext?: string }
+  metadata: { title?: string; businessName?: string; decisionContext?: string },
+  promptVersion: 'v1' | 'v2' | 'v3' = 'v3'
 ): Promise<ReportJson> {
   const provider = getLLMProvider(sources, stats, metadata);
-  const { prompt, systemInstruction } = buildAnalysisPrompt(sources, stats, metadata);
+  const { prompt, systemInstruction } = buildAnalysisPrompt(sources, stats, metadata, promptVersion);
 
   try {
     const report = await provider.generateReport(prompt, systemInstruction);
     return report;
   } catch (initialErr: any) {
-    console.warn(`[LLM Pipeline] Initial generation failed: ${initialErr.message}. Attempting repair prompt...`);
+    console.warn(`[LLM Pipeline] Generation with ${provider.name} failed: ${initialErr.message}. Retrying with repair prompt...`);
 
-    // Retry once with repair prompt if using live provider
     if (provider instanceof GeminiAdapter) {
       try {
-        const repairInstruction = `${systemInstruction}\nYour previous response failed validation: ${initialErr.message}. Return ONLY corrected JSON that strictly satisfies the schema.`;
+        const repairInstruction = `${systemInstruction}\nYour previous output failed validation: ${initialErr.message}. Return ONLY corrected JSON that strictly satisfies the schema.`;
         const repaired = await provider.generateReport(prompt, repairInstruction);
         return repaired;
       } catch (retryErr: any) {
@@ -150,9 +149,7 @@ export async function runAnalysisPipeline(
       }
     }
 
-    // Gracefully fall back to local deterministic MockAdapter if live LLM fails
     const fallbackAdapter = new MockAdapter(sources, stats, metadata);
     return await fallbackAdapter.generateReport(prompt, systemInstruction);
   }
 }
-

@@ -8,12 +8,12 @@ import { config } from '../config.js';
 import { dbService } from '../db/index.js';
 import { parseUploadedFile, parseText, ParsedSource } from '../parsers/index.js';
 import { computeStatsForTable, GlobalComputedStats } from '../stats/calculator.js';
-import { buildCandidateCharts } from '../stats/chartBuilder.js';
+import { buildRichChartCandidates } from '../stats/chartBuilder.js';
+import { profileTable } from '../stats/profiler.js';
 import { runAnalysisPipeline } from '../llm/index.js';
 
 const router = express.Router();
 
-// Ensure uploads_temp directory exists
 if (!fs.existsSync(config.uploadsDir)) {
   fs.mkdirSync(config.uploadsDir, { recursive: true });
 }
@@ -31,7 +31,7 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   limits: {
-    fileSize: config.maxFileSize, // 10MB
+    fileSize: config.maxFileSize,
     files: 5,
   },
   fileFilter: (_req: any, file: any, cb: any) => {
@@ -45,14 +45,107 @@ const upload = multer({
   },
 });
 
-// Rate limiting on report generation: max 30 per 15 minutes
+// Rate limiting: max 40 per 15 minutes
 const generateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 30,
-  message: { error: 'Too many report generation requests. Please try again shortly.' },
+  max: 40,
+  message: { error: 'Too many report requests. Please wait a moment.' },
 });
 
-// POST /api/reports (multipart: files + pastedText + notes + metadata)
+// Helper to parse inputs from request
+async function parseInputsFromRequest(
+  files: any[],
+  pastedText: string,
+  notes: string,
+  sheetSelections: Record<string, string>
+): Promise<ParsedSource[]> {
+  const parsedSources: ParsedSource[] = [];
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const selectedSheet = sheetSelections[file.originalname] || sheetSelections[String(i)];
+    try {
+      const parsed = await parseUploadedFile(file, selectedSheet);
+      parsedSources.push(parsed);
+    } catch (fileErr: any) {
+      console.error(`Error parsing file ${file.originalname}:`, fileErr);
+    } finally {
+      try {
+        if (file.path && fs.existsSync(file.path)) {
+          fs.unlinkSync(file.path);
+        }
+      } catch (delErr) {
+        // ignore
+      }
+    }
+  }
+
+  if (pastedText) {
+    parsedSources.push(parseText(pastedText, 'Pasted Data Snippet'));
+  }
+
+  if (notes) {
+    parsedSources.push(parseText(notes, 'Executive Context Notes'));
+  }
+
+  return parsedSources;
+}
+
+// POST /api/reports/preview (Data preview before generating)
+router.post('/preview', upload.array('files', 5), async (req: Request, res: Response): Promise<any> => {
+  try {
+    const files = (req.files as any[]) || [];
+    const pastedText = (req.body.pastedText || '').trim();
+    const notes = (req.body.notes || '').trim();
+
+    let sheetSelections: Record<string, string> = {};
+    if (req.body.sheetSelections) {
+      try {
+        sheetSelections = typeof req.body.sheetSelections === 'string'
+          ? JSON.parse(req.body.sheetSelections)
+          : req.body.sheetSelections;
+      } catch (e) {}
+    }
+
+    const parsedSources = await parseInputsFromRequest(files, pastedText, notes, sheetSelections);
+
+    const previews = parsedSources.map((s) => {
+      if (s.activeTable) {
+        const profile = profileTable(s.activeTable, s.name);
+        return {
+          id: s.id,
+          name: s.name,
+          type: s.type,
+          rowCount: s.activeTable.totalRows,
+          columnCount: s.activeTable.headers.length,
+          headers: s.activeTable.headers,
+          columnTypes: Object.fromEntries(
+            Object.entries(profile.columns).map(([col, p]) => [col, p.type])
+          ),
+          previewRows: s.activeTable.rows.slice(0, 8),
+          qualityScore: profile.qualityScore,
+          dateRange: profile.dateRange,
+          notes: s.notes,
+        };
+      }
+      return {
+        id: s.id,
+        name: s.name,
+        type: s.type,
+        lineCount: s.lineCount || 0,
+        textSnippet: (s.extractedText || '').slice(0, 600),
+        isScannedOrEmpty: s.isScannedOrEmpty,
+        notes: s.notes,
+      };
+    });
+
+    res.json({ previews });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || 'Failed to preview data.' });
+  }
+});
+
+// POST /api/reports (Generate report pipeline)
 router.post('/', generateLimiter, upload.array('files', 5), async (req: Request, res: Response): Promise<any> => {
   try {
     const files = (req.files as any[]) || [];
@@ -60,17 +153,16 @@ router.post('/', generateLimiter, upload.array('files', 5), async (req: Request,
     const notes = (req.body.notes || '').trim();
     const title = (req.body.title || '').trim() || 'Business Operations & Performance Analysis';
     const businessName = (req.body.businessName || '').trim() || 'Business Organization';
-    const decisionContext = (req.body.decisionContext || '').trim() || 'Strategic planning and capital allocation';
-    
+    const decisionContext = (req.body.decisionContext || '').trim() || 'Strategic capital allocation and growth review';
+    const promptVersion = (req.body.promptVersion as 'v1' | 'v2' | 'v3') || 'v3';
+
     let sheetSelections: Record<string, string> = {};
     if (req.body.sheetSelections) {
       try {
         sheetSelections = typeof req.body.sheetSelections === 'string'
           ? JSON.parse(req.body.sheetSelections)
           : req.body.sheetSelections;
-      } catch (e) {
-        // ignore parse error
-      }
+      } catch (e) {}
     }
 
     if (files.length === 0 && !pastedText && !notes) {
@@ -85,83 +177,68 @@ router.post('/', generateLimiter, upload.array('files', 5), async (req: Request,
       title,
       businessName,
       decisionContext,
+      promptVersion,
     });
 
-    // Respond immediately with reportId so client can start polling progress
     res.status(202).json({ reportId, status: 'parsing' });
 
-    // Run async background processing pipeline
+    // Asynchronous Execution Pipeline
     (async () => {
       try {
-        // STEP 1: PARSING
+        // STAGE 1: PARSING
         dbService.updateStatus(reportId, 'parsing', `Parsing ${files.length + (pastedText ? 1 : 0) + (notes ? 1 : 0)} data sources...`);
 
-        const parsedSources: ParsedSource[] = [];
+        const parsedSources = await parseInputsFromRequest(files, pastedText, notes, sheetSelections);
 
-        // Parse files
-        for (let i = 0; i < files.length; i++) {
-          const file = files[i];
-          const selectedSheet = sheetSelections[file.originalname] || sheetSelections[String(i)];
-          try {
-            const parsed = await parseUploadedFile(file, selectedSheet);
-            parsedSources.push(parsed);
-          } catch (fileErr: any) {
-            console.error(`Error parsing file ${file.originalname}:`, fileErr);
-          } finally {
-            // Privacy rule: delete raw file after parsing
-            try {
-              if (file.path && fs.existsSync(file.path)) {
-                fs.unlinkSync(file.path);
-              }
-            } catch (delErr) {
-              // ignore deletion err
-            }
-          }
-        }
-
-        // Parse pasted text if provided
-        if (pastedText) {
-          parsedSources.push(parseText(pastedText, 'Pasted Data & Notes'));
-        }
-
-        // Parse additional notes if provided
-        if (notes) {
-          parsedSources.push(parseText(notes, 'Executive Context Notes'));
-        }
-
-        // STEP 2: STATISTICAL ANALYSIS & CHART BUILDING (IN CODE)
-        dbService.updateStatus(reportId, 'analysing', 'Computing deterministic statistics and trend models...');
+        // STAGE 2: PROFILING DATA
+        dbService.updateStatus(reportId, 'analysing', 'Profiling columns, missing values, distributions, and outliers...');
 
         const tableStatsList: any[] = [];
         let totalRecordsAnalyzed = 0;
+        let overallDateRange: string | null = null;
+        let qualityScoreSum = 0;
 
         for (const src of parsedSources) {
           if (src.activeTable && src.activeTable.rows.length > 0) {
             const stats = computeStatsForTable(src.activeTable, src.name, src.notes);
             tableStatsList.push(stats);
             totalRecordsAnalyzed += src.activeTable.totalRows;
+            if (stats.profile.dateRange && !overallDateRange) {
+              overallDateRange = stats.profile.dateRange;
+            }
+            qualityScoreSum += stats.profile.qualityScore;
           }
         }
 
-        const candidateCharts = buildCandidateCharts(tableStatsList);
+        const avgQualityScore = tableStatsList.length > 0
+          ? Math.round(qualityScoreSum / tableStatsList.length)
+          : 90;
+
+        // STAGE 3: BUILDING CHARTS
+        dbService.updateStatus(reportId, 'analysing', 'Constructing rich candidate visualisations (trends, distributions, correlations)...');
+
+        const candidateCharts = buildRichChartCandidates(tableStatsList, parsedSources);
 
         const globalStats: GlobalComputedStats = {
           tables: tableStatsList,
           textSourcesCount: parsedSources.filter((s) => s.type === 'text' || s.type === 'pdf').length,
           totalRecordsAnalyzed,
+          overallDateRange,
+          overallQualityScore: avgQualityScore,
           candidateCharts,
         };
 
-        // STEP 3: LLM GENERATION & VALIDATION
-        dbService.updateStatus(reportId, 'writing', 'Synthesizing evidence-backed findings and recommendations...');
+        // STAGE 4: WRITING REPORT
+        dbService.updateStatus(reportId, 'writing', `Drafting executive findings and recommendations with prompt ${promptVersion}...`);
 
-        const reportJson = await runAnalysisPipeline(parsedSources, globalStats, {
-          title,
-          businessName,
-          decisionContext,
-        });
+        const reportJson = await runAnalysisPipeline(
+          parsedSources,
+          globalStats,
+          { title, businessName, decisionContext },
+          promptVersion
+        );
 
-        // STEP 4: COMPLETE & PERSIST
+        // COMPLETE
         dbService.completeReport(reportId, parsedSources, globalStats, reportJson);
       } catch (pipelineErr: any) {
         console.error(`[Report Pipeline Error] ${pipelineErr.message}`, pipelineErr);
@@ -169,18 +246,67 @@ router.post('/', generateLimiter, upload.array('files', 5), async (req: Request,
       }
     })();
   } catch (err: any) {
-    console.error('Error in /api/reports handler:', err);
     res.status(500).json({ error: err.message || 'Internal server error' });
   }
 });
 
-// GET /api/reports (list all past reports)
+// POST /api/reports/compare (Run inputs through v1, v2, v3 side-by-side)
+router.post('/compare', upload.array('files', 5), async (req: Request, res: Response): Promise<any> => {
+  try {
+    const files = (req.files as any[]) || [];
+    const pastedText = (req.body.pastedText || '').trim();
+    const notes = (req.body.notes || '').trim();
+    const title = (req.body.title || '').trim() || 'Prompt Engineering Multi-Version Comparison';
+    const businessName = (req.body.businessName || '').trim() || 'Enterprise Evaluation';
+    const decisionContext = (req.body.decisionContext || '').trim() || 'Comparative prompt engineering assessment';
+
+    const parsedSources = await parseInputsFromRequest(files, pastedText, notes, {});
+
+    const tableStatsList: any[] = [];
+    let totalRecordsAnalyzed = 0;
+    for (const src of parsedSources) {
+      if (src.activeTable && src.activeTable.rows.length > 0) {
+        const stats = computeStatsForTable(src.activeTable, src.name, src.notes);
+        tableStatsList.push(stats);
+        totalRecordsAnalyzed += src.activeTable.totalRows;
+      }
+    }
+
+    const candidateCharts = buildRichChartCandidates(tableStatsList, parsedSources);
+    const globalStats: GlobalComputedStats = {
+      tables: tableStatsList,
+      textSourcesCount: parsedSources.filter((s) => s.type === 'text' || s.type === 'pdf').length,
+      totalRecordsAnalyzed,
+      overallDateRange: 'FY2025 YTD',
+      overallQualityScore: 92,
+      candidateCharts,
+    };
+
+    // Run v1, v2, v3
+    const [reportV1, reportV2, reportV3] = await Promise.all([
+      runAnalysisPipeline(parsedSources, globalStats, { title, businessName, decisionContext }, 'v1'),
+      runAnalysisPipeline(parsedSources, globalStats, { title, businessName, decisionContext }, 'v2'),
+      runAnalysisPipeline(parsedSources, globalStats, { title, businessName, decisionContext }, 'v3'),
+    ]);
+
+    res.json({
+      v1: reportV1,
+      v2: reportV2,
+      v3: reportV3,
+      charts: candidateCharts,
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || 'Failed comparison run.' });
+  }
+});
+
+// GET /api/reports
 router.get('/', (_req: Request, res: Response) => {
   const reports = dbService.getAllReports();
   res.json(reports);
 });
 
-// GET /api/reports/:id/status (poll generation status)
+// GET /api/reports/:id/status
 router.get('/:id/status', (req: Request, res: Response): any => {
   const reportId = String(req.params.id);
   const report = dbService.getReport(reportId);
@@ -196,7 +322,7 @@ router.get('/:id/status', (req: Request, res: Response): any => {
   });
 });
 
-// GET /api/reports/:id (get full report)
+// GET /api/reports/:id
 router.get('/:id', (req: Request, res: Response): any => {
   const reportId = String(req.params.id);
   const report = dbService.getReport(reportId);
@@ -214,11 +340,8 @@ router.get('/:id', (req: Request, res: Response): any => {
     if (report.report_json) {
       reportJson = JSON.parse(report.report_json);
     }
-  } catch (e) {
-    // ignore json parse
-  }
+  } catch (e) {}
 
-  // Check share link
   const shareData = dbService.createOrGetShareToken(report.id);
 
   res.json({
@@ -226,6 +349,7 @@ router.get('/:id', (req: Request, res: Response): any => {
     title: report.title,
     businessName: report.business_name,
     decisionContext: report.decision_context,
+    promptVersion: report.prompt_version || 'v3',
     status: report.status,
     progressStep: report.progress_step,
     errorMessage: report.error_message,

@@ -9,11 +9,46 @@ interface KpiGridProps {
 export const KpiGrid: React.FC<KpiGridProps> = ({ kpis }) => {
   if (!kpis || kpis.length === 0) return null;
 
+  const renderMiniSparkline = (points?: number[] | null, isUp = true) => {
+    if (!points || points.length < 2) return null;
+    const min = Math.min(...points);
+    const max = Math.max(...points);
+    const range = max - min || 1;
+    const width = 64;
+    const height = 24;
+
+    const coords = points.map((p, idx) => {
+      const x = (idx / (points.length - 1)) * width;
+      const y = height - ((p - min) / range) * (height - 6) - 3;
+      return `${x},${y}`;
+    });
+
+    const strokeColor = isUp ? '#7A8450' : '#A8452F';
+
+    return (
+      <svg width={width} height={height} className="shrink-0 overflow-visible">
+        <polyline
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          points={coords.join(' ')}
+        />
+      </svg>
+    );
+  };
+
   return (
-    <div className="mb-8">
-      <h2 className="font-serif text-lg font-bold text-earth-deep mb-3.5 tracking-tight">
-        Key Performance Indicators
-      </h2>
+    <div className="mb-8" id="section-kpis">
+      <div className="flex items-center justify-between mb-3.5">
+        <h2 className="font-serif text-lg font-bold text-earth-deep tracking-tight">
+          At a Glance: Key Performance Indicators
+        </h2>
+        <span className="text-xs text-earth-muted">
+          Computed deterministically in code
+        </span>
+      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {kpis.map((kpi, idx) => {
@@ -27,12 +62,12 @@ export const KpiGrid: React.FC<KpiGridProps> = ({ kpis }) => {
             >
               <div>
                 <div className="flex items-start justify-between gap-2 mb-1.5">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-earth-muted">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-earth-muted truncate">
                     {kpi.label}
                   </span>
                   {kpi.change && (
                     <span
-                      className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md text-xs font-bold ${
+                      className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md text-xs font-bold shrink-0 ${
                         isUp
                           ? 'bg-earth-olive/15 text-earth-olive'
                           : isDown
@@ -52,8 +87,11 @@ export const KpiGrid: React.FC<KpiGridProps> = ({ kpis }) => {
                   )}
                 </div>
 
-                <div className="font-serif text-2xl sm:text-3xl font-bold text-earth-deep tracking-tight my-2">
-                  {kpi.value}
+                <div className="flex items-baseline justify-between gap-2 my-2">
+                  <div className="font-serif text-2xl sm:text-3xl font-bold text-earth-deep tracking-tight">
+                    {kpi.value}
+                  </div>
+                  {renderMiniSparkline(kpi.sparkline, isUp)}
                 </div>
               </div>
 
@@ -70,4 +108,3 @@ export const KpiGrid: React.FC<KpiGridProps> = ({ kpis }) => {
     </div>
   );
 };
-

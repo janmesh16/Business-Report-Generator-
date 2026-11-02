@@ -1,17 +1,21 @@
 import React from 'react';
-import { MapPin, Quote, TrendingUp } from 'lucide-react';
-import { Finding } from '../../types';
+import { MapPin, Quote, ExternalLink } from 'lucide-react';
+import { Finding, ChartCandidate, Evidence } from '../../types';
 import { ChartRenderer } from './ChartRenderer';
 
 interface FindingCardProps {
   finding: Finding;
   index: number;
+  candidateCharts?: ChartCandidate[];
+  onOpenEvidence: (evidence: Evidence, findingHeadline: string) => void;
   isPrintMode?: boolean;
 }
 
 export const FindingCard: React.FC<FindingCardProps> = ({
   finding,
   index,
+  candidateCharts = [],
+  onOpenEvidence,
   isPrintMode = false,
 }) => {
   const impactStyles = {
@@ -19,6 +23,9 @@ export const FindingCard: React.FC<FindingCardProps> = ({
     medium: 'bg-earth-terracotta/15 text-earth-terracotta border-earth-terracotta/30',
     low: 'bg-earth-olive/15 text-earth-olive border-earth-olive/30',
   };
+
+  // Find linked charts
+  const linkedCharts = candidateCharts.filter((c) => (finding.chartIds || []).includes(c.id));
 
   return (
     <div className="bg-earth-surface border border-earth-sand rounded-3xl p-6 sm:p-7 shadow-warm mb-6 print-avoid-break">
@@ -47,23 +54,32 @@ export const FindingCard: React.FC<FindingCardProps> = ({
         {finding.detail}
       </p>
 
-      {/* Supporting Chart (if present) */}
-      {finding.chart && finding.chart.data && finding.chart.data.length > 0 && (
-        <ChartRenderer chart={finding.chart} isPrintMode={isPrintMode} />
-      )}
+      {/* Supporting Visualizations */}
+      {linkedCharts.map((chart) => (
+        <ChartRenderer key={chart.id} chart={chart} isPrintMode={isPrintMode} />
+      ))}
 
-      {/* Evidence Chips */}
+      {/* Evidence Chips with Click-to-Inspect Drawer */}
       <div className="mt-4 pt-4 border-t border-earth-sand/70">
-        <div className="text-xs font-semibold uppercase tracking-wider text-earth-muted mb-2 flex items-center gap-1.5">
-          <MapPin className="w-3.5 h-3.5 text-earth-primary" />
-          <span>Empirical Evidence References</span>
+        <div className="text-xs font-semibold uppercase tracking-wider text-earth-muted mb-2 flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            <MapPin className="w-3.5 h-3.5 text-earth-primary" />
+            <span>Empirical Evidence References</span>
+          </div>
+          {!isPrintMode && (
+            <span className="text-[11px] text-earth-terracotta font-medium">
+              Click any chip to inspect source rows
+            </span>
+          )}
         </div>
 
         <div className="flex flex-wrap gap-2.5">
           {finding.evidence.map((ev, i) => (
-            <div
+            <button
               key={i}
-              className="inline-flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 px-3 py-1.5 rounded-xl bg-earth-bg border border-earth-sand text-xs text-earth-deep"
+              type="button"
+              onClick={() => onOpenEvidence(ev, finding.headline)}
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-earth-bg border border-earth-sand text-xs text-earth-deep hover:border-earth-terracotta hover:bg-earth-sand/30 transition-all cursor-pointer group text-left"
             >
               <div className="flex items-center gap-1.5 font-semibold text-earth-primary">
                 <span>{ev.source}</span>
@@ -71,16 +87,16 @@ export const FindingCard: React.FC<FindingCardProps> = ({
                 <span className="font-mono text-[11px] text-earth-muted">{ev.location}</span>
               </div>
               {ev.quote && (
-                <div className="flex items-center gap-1 text-earth-deep/80 italic font-serif">
+                <div className="hidden md:flex items-center gap-1 text-earth-deep/80 italic font-serif">
                   <Quote className="w-3 h-3 text-earth-terracotta shrink-0" />
-                  <span className="truncate max-w-xs md:max-w-md">"{ev.quote}"</span>
+                  <span className="truncate max-w-[200px]">"{ev.quote}"</span>
                 </div>
               )}
-            </div>
+              {!isPrintMode && <ExternalLink className="w-3 h-3 text-earth-muted group-hover:text-earth-terracotta transition-colors" />}
+            </button>
           ))}
         </div>
       </div>
     </div>
   );
 };
-

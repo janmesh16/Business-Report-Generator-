@@ -7,6 +7,7 @@ import { DashboardPage } from './pages/DashboardPage';
 import { PrintReportPage } from './pages/PrintReportPage';
 import { HistoryPage } from './pages/HistoryPage';
 import { SharedReportPage } from './pages/SharedReportPage';
+import { ComparePage } from './pages/ComparePage';
 
 const AppContent: React.FC = () => {
   const location = useLocation();
@@ -18,6 +19,7 @@ const AppContent: React.FC = () => {
       <main className="flex-1">
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/compare" element={<ComparePage />} />
           <Route path="/reports" element={<HistoryPage />} />
           <Route path="/reports/:id" element={<DashboardPage />} />
           <Route path="/reports/:id/print" element={<PrintReportPage />} />
